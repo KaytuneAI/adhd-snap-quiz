@@ -1,0 +1,387 @@
+[
+  {
+    "id": "v_parent_01",
+    "number": 1,
+    "domain": "inattention",
+    "text_cn": "做事情时常常粗心，容易忽略细节。",
+    "text_en": "Paraphrased Vanderbilt Parent item 1 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_02",
+    "number": 2,
+    "domain": "inattention",
+    "text_cn": "在学习或活动中难以持续专注。",
+    "text_en": "Paraphrased Vanderbilt Parent item 2 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_03",
+    "number": 3,
+    "domain": "inattention",
+    "text_cn": "别人与他说话时常显得没有在听。",
+    "text_en": "Paraphrased Vanderbilt Parent item 3 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_04",
+    "number": 4,
+    "domain": "inattention",
+    "text_cn": "经常没能按照指示完成作业或任务。",
+    "text_en": "Paraphrased Vanderbilt Parent item 4 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_05",
+    "number": 5,
+    "domain": "inattention",
+    "text_cn": "在安排任务或活动时显得缺乏条理。",
+    "text_en": "Paraphrased Vanderbilt Parent item 5 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_06",
+    "number": 6,
+    "domain": "inattention",
+    "text_cn": "会避免需要长时间精神集中力的任务。",
+    "text_en": "Paraphrased Vanderbilt Parent item 6 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_07",
+    "number": 7,
+    "domain": "inattention",
+    "text_cn": "经常弄丢完成任务需要的物品。",
+    "text_en": "Paraphrased Vanderbilt Parent item 7 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_08",
+    "number": 8,
+    "domain": "inattention",
+    "text_cn": "容易被周围环境分散注意力。",
+    "text_en": "Paraphrased Vanderbilt Parent item 8 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_09",
+    "number": 9,
+    "domain": "inattention",
+    "text_cn": "在日常生活中经常忘事。",
+    "text_en": "Paraphrased Vanderbilt Parent item 9 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_10",
+    "number": 10,
+    "domain": "hyperactivity_impulsivity",
+    "text_cn": "手脚常常停不下来，坐立不安。",
+    "text_en": "Paraphrased Vanderbilt Parent item 10 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_11",
+    "number": 11,
+    "domain": "hyperactivity_impulsivity",
+    "text_cn": "在需要保持坐姿的场合难以坐住。",
+    "text_en": "Paraphrased Vanderbilt Parent item 11 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_12",
+    "number": 12,
+    "domain": "hyperactivity_impulsivity",
+    "text_cn": "在不适合的地方跑来跑去或攀爬。",
+    "text_en": "Paraphrased Vanderbilt Parent item 12 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_13",
+    "number": 13,
+    "domain": "hyperactivity_impulsivity",
+    "text_cn": "玩耍或休闲时难以安静进行。",
+    "text_en": "Paraphrased Vanderbilt Parent item 13 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_14",
+    "number": 14,
+    "domain": "hyperactivity_impulsivity",
+    "text_cn": "行为像被马达驱动一样停不下来。",
+    "text_en": "Paraphrased Vanderbilt Parent item 14 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_15",
+    "number": 15,
+    "domain": "hyperactivity_impulsivity",
+    "text_cn": "说话很多，很难安静。",
+    "text_en": "Paraphrased Vanderbilt Parent item 15 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_16",
+    "number": 16,
+    "domain": "hyperactivity_impulsivity",
+    "text_cn": "别人提问未完成就抢着回答。",
+    "text_en": "Paraphrased Vanderbilt Parent item 16 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_17",
+    "number": 17,
+    "domain": "hyperactivity_impulsivity",
+    "text_cn": "排队或等待时表现出不耐烦。",
+    "text_en": "Paraphrased Vanderbilt Parent item 17 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_18",
+    "number": 18,
+    "domain": "hyperactivity_impulsivity",
+    "text_cn": "经常打断或干扰他人活动。",
+    "text_en": "Paraphrased Vanderbilt Parent item 18 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_19",
+    "number": 19,
+    "domain": "oppositional",
+    "text_cn": "容易发脾气，情绪波动大。",
+    "text_en": "Paraphrased Vanderbilt Parent item 19 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_20",
+    "number": 20,
+    "domain": "oppositional",
+    "text_cn": "经常与大人争论顶撞。",
+    "text_en": "Paraphrased Vanderbilt Parent item 20 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_21",
+    "number": 21,
+    "domain": "oppositional",
+    "text_cn": "故意不遵从指示或规则。",
+    "text_en": "Paraphrased Vanderbilt Parent item 21 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_22",
+    "number": 22,
+    "domain": "oppositional",
+    "text_cn": "刻意做让别人烦恼的事情。",
+    "text_en": "Paraphrased Vanderbilt Parent item 22 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_23",
+    "number": 23,
+    "domain": "oppositional",
+    "text_cn": "常把责任推给别人。",
+    "text_en": "Paraphrased Vanderbilt Parent item 23 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_24",
+    "number": 24,
+    "domain": "oppositional",
+    "text_cn": "容易被激怒或觉得被冒犯。",
+    "text_en": "Paraphrased Vanderbilt Parent item 24 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_25",
+    "number": 25,
+    "domain": "oppositional",
+    "text_cn": "经常表现愤怒或怨气。",
+    "text_en": "Paraphrased Vanderbilt Parent item 25 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_26",
+    "number": 26,
+    "domain": "oppositional",
+    "text_cn": "会表现报复或想“还击”。",
+    "text_en": "Paraphrased Vanderbilt Parent item 26 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_27",
+    "number": 27,
+    "domain": "conduct",
+    "text_cn": "会撒谎以获取好处或避免麻烦。",
+    "text_en": "Paraphrased Vanderbilt Parent item 27 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_28",
+    "number": 28,
+    "domain": "conduct",
+    "text_cn": "曾在未付款情况下拿走物品。",
+    "text_en": "Paraphrased Vanderbilt Parent item 28 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_29",
+    "number": 29,
+    "domain": "conduct",
+    "text_cn": "会无故离家时间过长（未告知）。",
+    "text_en": "Paraphrased Vanderbilt Parent item 29 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_30",
+    "number": 30,
+    "domain": "conduct",
+    "text_cn": "在上学日逃避上学。",
+    "text_en": "Paraphrased Vanderbilt Parent item 30 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_31",
+    "number": 31,
+    "domain": "conduct",
+    "text_cn": "会欺负、威胁或恐吓其他孩子。",
+    "text_en": "Paraphrased Vanderbilt Parent item 31 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_32",
+    "number": 32,
+    "domain": "conduct",
+    "text_cn": "曾故意破坏物品或财物。",
+    "text_en": "Paraphrased Vanderbilt Parent item 32 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_33",
+    "number": 33,
+    "domain": "conduct",
+    "text_cn": "曾故意伤害动物。",
+    "text_en": "Paraphrased Vanderbilt Parent item 33 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_34",
+    "number": 34,
+    "domain": "conduct",
+    "text_cn": "参与打架或身体冲突。",
+    "text_en": "Paraphrased Vanderbilt Parent item 34 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_35",
+    "number": 35,
+    "domain": "conduct",
+    "text_cn": "曾进入他人禁止区域或房间。",
+    "text_en": "Paraphrased Vanderbilt Parent item 35 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_36",
+    "number": 36,
+    "domain": "conduct",
+    "text_cn": "与家长、老师等权威人物严重冲突。",
+    "text_en": "Paraphrased Vanderbilt Parent item 36 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_37",
+    "number": 37,
+    "domain": "conduct",
+    "text_cn": "常做危险行为不顾后果。",
+    "text_en": "Paraphrased Vanderbilt Parent item 37 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_38",
+    "number": 38,
+    "domain": "conduct",
+    "text_cn": "逃避家庭责任或家务。",
+    "text_en": "Paraphrased Vanderbilt Parent item 38 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_39",
+    "number": 39,
+    "domain": "conduct",
+    "text_cn": "违背规则即使反复提醒。",
+    "text_en": "Paraphrased Vanderbilt Parent item 39 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_40",
+    "number": 40,
+    "domain": "conduct",
+    "text_cn": "参与让自己或他人受伤的行为。",
+    "text_en": "Paraphrased Vanderbilt Parent item 40 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_41",
+    "number": 41,
+    "domain": "anxiety_depression",
+    "text_cn": "经常担心或焦虑。",
+    "text_en": "Paraphrased Vanderbilt Parent item 41 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_42",
+    "number": 42,
+    "domain": "anxiety_depression",
+    "text_cn": "显得紧张害怕。",
+    "text_en": "Paraphrased Vanderbilt Parent item 42 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_43",
+    "number": 43,
+    "domain": "anxiety_depression",
+    "text_cn": "情绪低落或显得悲伤。",
+    "text_en": "Paraphrased Vanderbilt Parent item 43 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_44",
+    "number": 44,
+    "domain": "anxiety_depression",
+    "text_cn": "常常自责或觉得自己不好。",
+    "text_en": "Paraphrased Vanderbilt Parent item 44 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_45",
+    "number": 45,
+    "domain": "anxiety_depression",
+    "text_cn": "容易哭泣或情绪脆弱。",
+    "text_en": "Paraphrased Vanderbilt Parent item 45 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_46",
+    "number": 46,
+    "domain": "anxiety_depression",
+    "text_cn": "对平常喜欢的活动失去兴趣。",
+    "text_en": "Paraphrased Vanderbilt Parent item 46 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_47",
+    "number": 47,
+    "domain": "anxiety_depression",
+    "text_cn": "睡眠出现困难或睡眠质量差。",
+    "text_en": "Paraphrased Vanderbilt Parent item 47 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_48",
+    "number": 48,
+    "domain": "performance",
+    "text_cn": "课堂学习表现。",
+    "text_en": "Paraphrased Vanderbilt Parent item 48 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_49",
+    "number": 49,
+    "domain": "performance",
+    "text_cn": "阅读能力表现。",
+    "text_en": "Paraphrased Vanderbilt Parent item 49 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_50",
+    "number": 50,
+    "domain": "performance",
+    "text_cn": "写作能力表现。",
+    "text_en": "Paraphrased Vanderbilt Parent item 50 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_51",
+    "number": 51,
+    "domain": "performance",
+    "text_cn": "数学能力表现。",
+    "text_en": "Paraphrased Vanderbilt Parent item 51 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_52",
+    "number": 52,
+    "domain": "performance",
+    "text_cn": "与同伴相处情况。",
+    "text_en": "Paraphrased Vanderbilt Parent item 52 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_53",
+    "number": 53,
+    "domain": "performance",
+    "text_cn": "遵守教师要求的情况。",
+    "text_en": "Paraphrased Vanderbilt Parent item 53 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_54",
+    "number": 54,
+    "domain": "performance",
+    "text_cn": "家庭作业的完成度。",
+    "text_en": "Paraphrased Vanderbilt Parent item 54 (English version can be generated)."
+  },
+  {
+    "id": "v_parent_55",
+    "number": 55,
+    "domain": "performance",
+    "text_cn": "课堂整体行为表现。",
+    "text_en": "Paraphrased Vanderbilt Parent item 55 (English version can be generated)."
+  }
+]

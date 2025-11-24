@@ -1,0 +1,303 @@
+[
+  {
+    "id": "v_teacher_01",
+    "number": 1,
+    "domain": "inattention",
+    "text_cn": "在课堂上做事粗心大意，容易犯错。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 1."
+  },
+  {
+    "id": "v_teacher_02",
+    "number": 2,
+    "domain": "inattention",
+    "text_cn": "学习任务中难以保持专注，容易走神。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 2."
+  },
+  {
+    "id": "v_teacher_03",
+    "number": 3,
+    "domain": "inattention",
+    "text_cn": "老师说话时常常显得没在听。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 3."
+  },
+  {
+    "id": "v_teacher_04",
+    "number": 4,
+    "domain": "inattention",
+    "text_cn": "很难按指示完成课堂任务。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 4."
+  },
+  {
+    "id": "v_teacher_05",
+    "number": 5,
+    "domain": "inattention",
+    "text_cn": "在安排课堂任务时显得缺乏条理。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 5."
+  },
+  {
+    "id": "v_teacher_06",
+    "number": 6,
+    "domain": "inattention",
+    "text_cn": "会避免需要持续专注的课堂活动。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 6."
+  },
+  {
+    "id": "v_teacher_07",
+    "number": 7,
+    "domain": "inattention",
+    "text_cn": "经常弄丢学习用品（铅笔、课本）。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 7."
+  },
+  {
+    "id": "v_teacher_08",
+    "number": 8,
+    "domain": "inattention",
+    "text_cn": "容易被周围的声音或活动分心。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 8."
+  },
+  {
+    "id": "v_teacher_09",
+    "number": 9,
+    "domain": "inattention",
+    "text_cn": "课堂中常忘记任务或作业要求。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 9."
+  },
+  {
+    "id": "v_teacher_10",
+    "number": 10,
+    "domain": "hyperactivity_impulsivity",
+    "text_cn": "课堂中常扭动不安，坐不住。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 10."
+  },
+  {
+    "id": "v_teacher_11",
+    "number": 11,
+    "domain": "hyperactivity_impulsivity",
+    "text_cn": "在需要坐好时频繁离开座位。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 11."
+  },
+  {
+    "id": "v_teacher_12",
+    "number": 12,
+    "domain": "hyperactivity_impulsivity",
+    "text_cn": "在不适当的环境中跑跳或攀爬。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 12."
+  },
+  {
+    "id": "v_teacher_13",
+    "number": 13,
+    "domain": "hyperactivity_impulsivity",
+    "text_cn": "难以安静地参与课堂活动。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 13."
+  },
+  {
+    "id": "v_teacher_14",
+    "number": 14,
+    "domain": "hyperactivity_impulsivity",
+    "text_cn": "行为像被马达驱动一样停不下来。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 14."
+  },
+  {
+    "id": "v_teacher_15",
+    "number": 15,
+    "domain": "hyperactivity_impulsivity",
+    "text_cn": "课堂上说话过多，难以控制。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 15."
+  },
+  {
+    "id": "v_teacher_16",
+    "number": 16,
+    "domain": "hyperactivity_impulsivity",
+    "text_cn": "老师的问题未问完就抢着回答。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 16."
+  },
+  {
+    "id": "v_teacher_17",
+    "number": 17,
+    "domain": "hyperactivity_impulsivity",
+    "text_cn": "等待轮到自己时显得不耐烦。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 17."
+  },
+  {
+    "id": "v_teacher_18",
+    "number": 18,
+    "domain": "hyperactivity_impulsivity",
+    "text_cn": "经常打断他人或插入他人活动。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 18."
+  },
+  {
+    "id": "v_teacher_19",
+    "number": 19,
+    "domain": "oppositional_conduct",
+    "text_cn": "容易因为小事发脾气。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 19."
+  },
+  {
+    "id": "v_teacher_20",
+    "number": 20,
+    "domain": "oppositional_conduct",
+    "text_cn": "经常与老师争论或顶撞。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 20."
+  },
+  {
+    "id": "v_teacher_21",
+    "number": 21,
+    "domain": "oppositional_conduct",
+    "text_cn": "拒绝遵守课堂规则。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 21."
+  },
+  {
+    "id": "v_teacher_22",
+    "number": 22,
+    "domain": "oppositional_conduct",
+    "text_cn": "故意做让同学烦恼的事。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 22."
+  },
+  {
+    "id": "v_teacher_23",
+    "number": 23,
+    "domain": "oppositional_conduct",
+    "text_cn": "常把问题或错误归咎于他人。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 23."
+  },
+  {
+    "id": "v_teacher_24",
+    "number": 24,
+    "domain": "oppositional_conduct",
+    "text_cn": "容易被激怒或误解他人意图。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 24."
+  },
+  {
+    "id": "v_teacher_25",
+    "number": 25,
+    "domain": "oppositional_conduct",
+    "text_cn": "表现出持续的愤怒或不满。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 25."
+  },
+  {
+    "id": "v_teacher_26",
+    "number": 26,
+    "domain": "oppositional_conduct",
+    "text_cn": "对同学表现报复或回击行为。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 26."
+  },
+  {
+    "id": "v_teacher_27",
+    "number": 27,
+    "domain": "oppositional_conduct",
+    "text_cn": "撒谎以避免课堂责任。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 27."
+  },
+  {
+    "id": "v_teacher_28",
+    "number": 28,
+    "domain": "oppositional_conduct",
+    "text_cn": "未经允许拿走同学或学校物品。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 28."
+  },
+  {
+    "id": "v_teacher_29",
+    "number": 29,
+    "domain": "anxiety_depression",
+    "text_cn": "在学校显得焦虑或过度担心。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 29."
+  },
+  {
+    "id": "v_teacher_30",
+    "number": 30,
+    "domain": "anxiety_depression",
+    "text_cn": "看起来紧张、害怕或不安。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 30."
+  },
+  {
+    "id": "v_teacher_31",
+    "number": 31,
+    "domain": "anxiety_depression",
+    "text_cn": "情绪低落，明显缺乏活力。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 31."
+  },
+  {
+    "id": "v_teacher_32",
+    "number": 32,
+    "domain": "anxiety_depression",
+    "text_cn": "容易自责或对自己评价过低。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 32."
+  },
+  {
+    "id": "v_teacher_33",
+    "number": 33,
+    "domain": "anxiety_depression",
+    "text_cn": "容易哭泣或情绪敏感。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 33."
+  },
+  {
+    "id": "v_teacher_34",
+    "number": 34,
+    "domain": "anxiety_depression",
+    "text_cn": "对课堂活动兴趣下降。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 34."
+  },
+  {
+    "id": "v_teacher_35",
+    "number": 35,
+    "domain": "anxiety_depression",
+    "text_cn": "显得疲惫或睡眠不足。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 35."
+  },
+  {
+    "id": "v_teacher_36",
+    "number": 36,
+    "domain": "performance",
+    "text_cn": "课堂学习表现。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 36."
+  },
+  {
+    "id": "v_teacher_37",
+    "number": 37,
+    "domain": "performance",
+    "text_cn": "遵守课堂纪律的情况。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 37."
+  },
+  {
+    "id": "v_teacher_38",
+    "number": 38,
+    "domain": "performance",
+    "text_cn": "与同学互动的情况。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 38."
+  },
+  {
+    "id": "v_teacher_39",
+    "number": 39,
+    "domain": "performance",
+    "text_cn": "课堂作业完成质量。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 39."
+  },
+  {
+    "id": "v_teacher_40",
+    "number": 40,
+    "domain": "performance",
+    "text_cn": "课堂参与积极性。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 40."
+  },
+  {
+    "id": "v_teacher_41",
+    "number": 41,
+    "domain": "performance",
+    "text_cn": "学习任务的组织能力。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 41."
+  },
+  {
+    "id": "v_teacher_42",
+    "number": 42,
+    "domain": "performance",
+    "text_cn": "遵从教师指令的程度。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 42."
+  },
+  {
+    "id": "v_teacher_43",
+    "number": 43,
+    "domain": "performance",
+    "text_cn": "整体课堂行为表现。",
+    "text_en": "Paraphrased Vanderbilt Teacher item 43."
+  }
+]

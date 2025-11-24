@@ -1,0 +1,185 @@
+[
+  {
+    "id": "snap_01",
+    "number": 1,
+    "domain": "inattention",
+    "text_cn": "在做作业或其他活动时，经常因为粗心而出错，难以细心留意细节。",
+    "text_en": "Often makes careless mistakes and has trouble paying close attention to details during tasks."
+  },
+  {
+    "id": "snap_02",
+    "number": 2,
+    "domain": "inattention",
+    "text_cn": "在任务或游戏中难以长时间保持专注，注意力容易分散。",
+    "text_en": "Often has difficulty sustaining attention in tasks or play activities."
+  },
+  {
+    "id": "snap_03",
+    "number": 3,
+    "domain": "inattention",
+    "text_cn": "别人对他说话时，常常好像没有在听，显得心不在焉。",
+    "text_en": "Often seems not to listen when spoken to directly."
+  },
+  {
+    "id": "snap_04",
+    "number": 4,
+    "domain": "inattention",
+    "text_cn": "经常难以按照指示完成作业或家务，事情做到一半就停下来。",
+    "text_en": "Often has difficulty following through on instructions and fails to finish schoolwork or chores."
+  },
+  {
+    "id": "snap_05",
+    "number": 5,
+    "domain": "inattention",
+    "text_cn": "在安排任务和活动时常常缺乏条理，组织能力较差。",
+    "text_en": "Often has trouble organizing tasks and activities."
+  },
+  {
+    "id": "snap_06",
+    "number": 6,
+    "domain": "inattention",
+    "text_cn": "会回避或不喜欢需要持续动脑的任务，例如写作业或长时间阅读。",
+    "text_en": "Often avoids or dislikes tasks that require sustained mental effort."
+  },
+  {
+    "id": "snap_07",
+    "number": 7,
+    "domain": "inattention",
+    "text_cn": "经常丢失完成任务或活动所需要的物品，例如文具、书本或玩具。",
+    "text_en": "Often loses things necessary for tasks or activities, like books or toys."
+  },
+  {
+    "id": "snap_08",
+    "number": 8,
+    "domain": "inattention",
+    "text_cn": "很容易被外界的声音、事物吸引而分心，难以保持注意。",
+    "text_en": "Is easily distracted by external stimuli."
+  },
+  {
+    "id": "snap_09",
+    "number": 9,
+    "domain": "inattention",
+    "text_cn": "在日常生活中经常健忘，比如忘记完成约定的事情或带物品。",
+    "text_en": "Is often forgetful in daily activities."
+  },
+  {
+    "id": "snap_10",
+    "number": 10,
+    "domain": "hyperactivity_impulsivity",
+    "text_cn": "经常在座位上扭来扭去，手脚不停地动，显得坐立不安。",
+    "text_en": "Often fidgets with hands or feet or squirms in seat."
+  },
+  {
+    "id": "snap_11",
+    "number": 11,
+    "domain": "hyperactivity_impulsivity",
+    "text_cn": "需要保持坐好时却常常离开座位，在课堂或餐桌前坐不住。",
+    "text_en": "Often leaves seat when remaining seated is expected."
+  },
+  {
+    "id": "snap_12",
+    "number": 12,
+    "domain": "hyperactivity_impulsivity",
+    "text_cn": "在不适合跑跳的场合，也会跑来跑去或到处攀爬。",
+    "text_en": "Often runs about or climbs in situations where it is not appropriate."
+  },
+  {
+    "id": "snap_13",
+    "number": 13,
+    "domain": "hyperactivity_impulsivity",
+    "text_cn": "玩耍或进行休闲活动时，很难安静下来，总是显得非常兴奋。",
+    "text_en": "Often has difficulty playing or engaging in leisure activities quietly."
+  },
+  {
+    "id": "snap_14",
+    "number": 14,
+    "domain": "hyperactivity_impulsivity",
+    "text_cn": "经常好像被马达驱动一样，总是停不下来，忙个不停。",
+    "text_en": "Is often 'on the go' as if driven by a motor."
+  },
+  {
+    "id": "snap_15",
+    "number": 15,
+    "domain": "hyperactivity_impulsivity",
+    "text_cn": "经常说话很多，很难控制自己不一直讲话。",
+    "text_en": "Often talks excessively."
+  },
+  {
+    "id": "snap_16",
+    "number": 16,
+    "domain": "hyperactivity_impulsivity",
+    "text_cn": "别人问题还没问完，就忍不住抢着回答。",
+    "text_en": "Often blurts out answers before a question has been completed."
+  },
+  {
+    "id": "snap_17",
+    "number": 17,
+    "domain": "hyperactivity_impulsivity",
+    "text_cn": "在排队或轮流时难以等待，总想插队或抢先。",
+    "text_en": "Often has difficulty waiting for his or her turn."
+  },
+  {
+    "id": "snap_18",
+    "number": 18,
+    "domain": "hyperactivity_impulsivity",
+    "text_cn": "经常打断或干扰别人，比如插入他人的谈话或游戏中。",
+    "text_en": "Often interrupts or intrudes on others, such as butting into conversations or games."
+  },
+  {
+    "id": "snap_19",
+    "number": 19,
+    "domain": "oppositional",
+    "text_cn": "经常容易发脾气，情绪起伏大，稍有不顺就生气。",
+    "text_en": "Often loses temper and becomes easily upset."
+  },
+  {
+    "id": "snap_20",
+    "number": 20,
+    "domain": "oppositional",
+    "text_cn": "经常和大人顶嘴，喜欢争论，不轻易顺从要求。",
+    "text_en": "Often argues with adults and resists requests."
+  },
+  {
+    "id": "snap_21",
+    "number": 21,
+    "domain": "oppositional",
+    "text_cn": "常常主动违背或拒绝遵守大人提出的要求或规则。",
+    "text_en": "Often actively defies or refuses to comply with adults' requests or rules."
+  },
+  {
+    "id": "snap_22",
+    "number": 22,
+    "domain": "oppositional",
+    "text_cn": "有时会故意做一些事情，让别人感到烦恼或不高兴。",
+    "text_en": "Often deliberately does things that annoy other people."
+  },
+  {
+    "id": "snap_23",
+    "number": 23,
+    "domain": "oppositional",
+    "text_cn": "经常把自己的错误或不当行为归咎于别人，不愿承认责任。",
+    "text_en": "Often blames others for his or her own mistakes or misbehavior."
+  },
+  {
+    "id": "snap_24",
+    "number": 24,
+    "domain": "oppositional",
+    "text_cn": "很容易被惹怒，情绪敏感，经常觉得别人在针对自己。",
+    "text_en": "Is often touchy or easily annoyed by others."
+  },
+  {
+    "id": "snap_25",
+    "number": 25,
+    "domain": "oppositional",
+    "text_cn": "经常心怀怨气，对人或事物长期不满、爱记仇。",
+    "text_en": "Is often angry and resentful."
+  },
+  {
+    "id": "snap_26",
+    "number": 26,
+    "domain": "oppositional",
+    "text_cn": "有时会表现出报复心，总想\"报复回来\"或让对方难堪。",
+    "text_en": "Is often spiteful or seems eager to get back at others."
+  }
+]
+
