@@ -10,10 +10,8 @@ html, body {
   position: fixed;
   width: 100%;
   /* 防止微信浏览器调整字体大小 */
-  -webkit-text-size-adjust: 100% !important;
-  text-size-adjust: 100% !important;
-  /* 防止 iOS Safari 的字体大小调整 */
-  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -21,8 +19,6 @@ body {
   background: #f8f9fa;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* 防止微信浏览器字体缩放 */
-  font-size: 16px !important;
 }
 
 #root {
@@ -33,15 +29,10 @@ body {
 .app-shell {
   height: 100vh;
   height: 100dvh; /* 动态视口高度，适配移动端浏览器地址栏 */
-  /* 微信浏览器兼容 */
-  height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   display: flex;
   justify-content: center;
   align-items: stretch;
   overflow: hidden;
-  /* 防止微信浏览器缩放 */
-  transform: scale(1);
-  transform-origin: top left;
 }
 
 .page {
