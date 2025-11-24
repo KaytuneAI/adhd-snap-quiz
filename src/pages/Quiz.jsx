@@ -73,86 +73,92 @@ function Quiz() {
   return (
     <div className="page">
       <div className="card">
-        <div className="progress-wrapper">
-          <div className="progress-header">
-            <span className="progress-percent">{Math.round(progress)}%</span>
-            <div className="progress-bar">
-              <div className="progress-inner" style={{ width: `${progress}%` }} />
+        <div className="card-header">
+          <div className="progress-wrapper">
+            <div className="progress-header">
+              <span className="progress-percent">{Math.round(progress)}%</span>
+              <div className="progress-bar">
+                <div className="progress-inner" style={{ width: `${progress}%` }} />
+              </div>
+              <span className="progress-step">Step {currentPage + 1} of {totalPages}</span>
             </div>
-            <span className="progress-step">Step {currentPage + 1} of {totalPages}</span>
+          </div>
+
+          <h2 className="quiz-title">请选择每项描述与孩子的符合程度</h2>
+
+          <div className="options-legend">
+            {OPTIONS.map((opt) => (
+              <div key={opt.value} className="legend-item">
+                <div className="legend-balloon" style={{ backgroundColor: opt.color }}></div>
+                <span className="legend-label">{opt.label}</span>
+              </div>
+            ))}
           </div>
         </div>
 
-        <h2 className="quiz-title">请选择每项描述与孩子的符合程度</h2>
-
-        <div className="options-legend">
-          {OPTIONS.map((opt) => (
-            <div key={opt.value} className="legend-item">
-              <div className="legend-balloon" style={{ backgroundColor: opt.color }}></div>
-              <span className="legend-label">{opt.label}</span>
-            </div>
-          ))}
+        <div className="card-body">
+          <div className="questions-container">
+            {currentQuestions.map((question, questionIndex) => {
+              const globalIndex = startIndex + questionIndex
+              return (
+                <div key={question.id} className="question-card">
+                  <div className="question-text">
+                    {question.text_cn}
+                  </div>
+                  <div className="balloon-options">
+                    {OPTIONS.map((opt) => (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        className={`balloon ${answers[globalIndex] === opt.value ? 'selected' : ''}`}
+                        style={{ 
+                          backgroundColor: opt.color,
+                          ...(answers[globalIndex] === opt.value && { borderColor: opt.borderColor })
+                        }}
+                        onClick={() => handleSelect(questionIndex, opt.value)}
+                        aria-label={opt.label}
+                        title={opt.label}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
         </div>
 
-        <div className="questions-container">
-          {currentQuestions.map((question, questionIndex) => {
-            const globalIndex = startIndex + questionIndex
-            return (
-              <div key={question.id} className="question-card">
-                <div className="question-text">
-                  {question.text_cn}
-                </div>
-                <div className="balloon-options">
-                  {OPTIONS.map((opt) => (
-                    <button
-                      key={opt.value}
-                      type="button"
-                      className={`balloon ${answers[globalIndex] === opt.value ? 'selected' : ''}`}
-                      style={{ 
-                        backgroundColor: opt.color,
-                        ...(answers[globalIndex] === opt.value && { borderColor: opt.borderColor })
-                      }}
-                      onClick={() => handleSelect(questionIndex, opt.value)}
-                      aria-label={opt.label}
-                      title={opt.label}
-                    />
-                  ))}
-                </div>
-              </div>
-            )
-          })}
-        </div>
+        <div className="card-footer">
+          {!allCurrentPageAnswered && (
+            <p className="answer-required-hint">
+              所有问题必须回答后才能继续。
+            </p>
+          )}
 
-        {!allCurrentPageAnswered && (
-          <p className="answer-required-hint">
-            所有问题必须回答后才能继续。
-          </p>
-        )}
-
-        <div className="footer-nav">
-          {currentPage > 0 && (
+          <div className="footer-nav">
+            {currentPage > 0 && (
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={handlePrev}
+              >
+                上一页
+              </button>
+            )}
             <button
               type="button"
-              className="btn btn-secondary"
-              onClick={handlePrev}
+              className="btn btn-primary"
+              onClick={handleNext}
+              disabled={!allCurrentPageAnswered}
+              style={{ 
+                opacity: !allCurrentPageAnswered ? 0.6 : 1,
+                cursor: !allCurrentPageAnswered ? 'not-allowed' : 'pointer',
+                width: currentPage === 0 ? '100%' : 'auto',
+                flex: currentPage === 0 ? 1 : 'none'
+              }}
             >
-              上一页
+              {currentPage === totalPages - 1 ? '查看结果' : '下一页'}
             </button>
-          )}
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={handleNext}
-            disabled={!allCurrentPageAnswered}
-            style={{ 
-              opacity: !allCurrentPageAnswered ? 0.6 : 1,
-              cursor: !allCurrentPageAnswered ? 'not-allowed' : 'pointer',
-              width: currentPage === 0 ? '100%' : 'auto',
-              flex: currentPage === 0 ? 1 : 'none'
-            }}
-          >
-            {currentPage === totalPages - 1 ? '查看结果' : '下一页'}
-          </button>
+          </div>
         </div>
       </div>
     </div>

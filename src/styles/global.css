@@ -6,17 +6,15 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  overflow: hidden;
-  position: fixed;
   width: 100%;
-  /* 防止微信浏览器调整字体大小 */
+  overflow: hidden;              /* 仍然把滚动权交给内部容器 */
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  background: #f5f5fa;
 }
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  background: #f8f9fa;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -27,8 +25,7 @@ body {
 }
 
 .app-shell {
-  height: 100vh;
-  height: 100dvh; /* 动态视口高度，适配移动端浏览器地址栏 */
+  height: calc(var(--vh, 1vh) * 100); /* 使用真实视口高度 */
   display: flex;
   justify-content: center;
   align-items: stretch;
@@ -39,25 +36,42 @@ body {
   width: 100%;
   max-width: 480px;
   margin: 0 auto;
-  padding: 12px 12px 12px;
+  padding: 16px 16px 24px;
   height: 100%;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 }
 
 .card {
-  background: #ffffff;
-  border-radius: 20px;
-  padding: 16px 16px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-  border: 1px solid rgba(0, 0, 0, 0.04);
-  height: 100%;
+  flex: 1;
   display: flex;
   flex-direction: column;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 16px 14px 14px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+  min-height: 0; /* 重要：允许 flex 子元素缩小 */
+}
+
+/* 进度条 + 标题区域 */
+.card-header {
+  flex: 0 0 auto;
+}
+
+/* 题干 + 选项区域，可滚动 */
+.card-body {
+  flex: 1 1 auto;
   overflow-y: auto;
   overflow-x: hidden;
+  padding: 8px 0;
   -webkit-overflow-scrolling: touch;
+  min-height: 0; /* 重要：允许 flex 子元素缩小 */
+}
+
+/* 底部按钮区域，固定在卡片底部 */
+.card-footer {
+  flex: 0 0 auto;
+  padding-top: 8px;
 }
 
 .intro-card {
@@ -110,8 +124,7 @@ p {
 }
 
 .progress-wrapper {
-  margin-bottom: 20px;
-  flex-shrink: 0;
+  margin-bottom: 16px;
 }
 
 .progress-header {
@@ -157,25 +170,23 @@ p {
   font-size: 18px;
   font-weight: 600;
   color: #111827;
-  margin: 0 0 16px;
+  margin: 0 0 12px;
   text-align: center;
   line-height: 1.4;
   letter-spacing: -0.01em;
-  flex-shrink: 0;
 }
 
 .options-legend {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 0;
   padding: 12px 10px;
   background: #f8f9fa;
   border-radius: 16px;
   flex-wrap: wrap;
   gap: 6px;
   border: 1px solid #e9ecef;
-  flex-shrink: 0;
 }
 
 .legend-item {
@@ -221,11 +232,6 @@ p {
   display: flex;
   flex-direction: column;
   gap: 0;
-  margin-bottom: 16px;
-  flex: 1;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  min-height: 0;
 }
 
 .question-card {
@@ -323,12 +329,10 @@ p {
 }
 
 .footer-nav {
-  margin-top: 12px;
+  margin-top: 0;
   display: flex;
   gap: 12px;
   align-items: center;
-  flex-shrink: 0;
-  padding-top: 8px;
 }
 
 .footer-nav .btn {
