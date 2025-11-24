@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom'
 import snapItems from '../data/snap_iv_26_items.json'
 
 const OPTIONS = [
-  { value: 0, label: '从不 / 很少', color: '#fca5a5', borderColor: '#dc2626' }, // 柔和的浅红色 + 深红色边框
-  { value: 1, label: '偶尔', color: '#fecaca', borderColor: '#ef4444' }, // 更浅的红色 + 深红色边框
-  { value: 2, label: '经常', color: '#bbf7d0', borderColor: '#16a34a' }, // 柔和的浅绿色 + 深绿色边框
-  { value: 3, label: '非常经常', color: '#86efac', borderColor: '#059669' }, // 稍深一点的绿色 + 深绿色边框
+  { value: 0, label: '从不 / 很少', color: '#bbf7d0', borderColor: '#16a34a' }, // 柔和的浅绿色 + 深绿色边框
+  { value: 1, label: '偶尔', color: '#86efac', borderColor: '#059669' }, // 稍深一点的绿色 + 深绿色边框
+  { value: 2, label: '经常', color: '#fecaca', borderColor: '#ef4444' }, // 更浅的红色 + 深红色边框
+  { value: 3, label: '非常经常', color: '#fca5a5', borderColor: '#dc2626' }, // 柔和的浅红色 + 深红色边框
 ]
 
 const QUESTIONS_PER_PAGE = 3

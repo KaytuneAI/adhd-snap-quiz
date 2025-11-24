@@ -19,13 +19,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* #root 允许内部撑开，交给 .app-shell 控制高度 */
 #root {
   height: 100%;
   overflow: hidden;
 }
 
 .app-shell {
-  height: calc(var(--vh, 1vh) * 100); /* 使用真实视口高度 */
+  min-height: calc(var(--vh, 1vh) * 100);   /* 保证至少一屏高 */
+  height: 100%;                             /* 与 #root 同步 */
   display: flex;
   justify-content: center;
   align-items: stretch;
@@ -51,6 +53,7 @@ body {
   padding: 16px 14px 14px;
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
   min-height: 0; /* 重要：允许 flex 子元素缩小 */
+  max-height: calc(var(--vh, 1vh) * 100 - 32px); /* 限制在视口内，32px 是上下 padding/外边距的预估 */
 }
 
 /* 进度条 + 标题区域 */
