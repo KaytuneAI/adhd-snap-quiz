@@ -40,9 +40,9 @@ function Result() {
 
   return (
     <div className="page">
-      <div className="card">
-        <Logo size={100} showText={true} />
-        <h2>测评结果概览</h2>
+      <div className="card result-card">
+        <Logo size={80} showText={true} />
+        <h2 style={{ fontSize: 18, marginBottom: 8 }}>测评结果概览</h2>
         <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 16 }}>
           以下结果基于 SNAP-IV 量表，仅用于了解孩子在不同维度的行为特征，不构成医学诊断。
         </p>
