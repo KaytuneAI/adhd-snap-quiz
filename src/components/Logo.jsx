@@ -1,6 +1,6 @@
-function Logo({ size = 120, showText = true }) {
+function Logo({ size = 120, showText = true, showAdhd = true }) {
   return (
-    <div className="logo-container" style={{ textAlign: 'center', marginBottom: showText ? 24 : 16 }}>
+    <div className="logo-container" style={{ textAlign: 'center', marginBottom: showText ? 16 : 8 }}>
       <svg
         width={size}
         height={size * 0.8}
@@ -28,23 +28,16 @@ function Logo({ size = 120, showText = true }) {
       </svg>
       
       {showText && (
-        <div style={{ marginTop: 16 }}>
+        <div style={{ marginTop: 8 }}>
           <div style={{ 
-            fontSize: 22, 
+            fontSize: showAdhd ? 18 : 20, 
             fontWeight: 600, 
             color: '#1f2937', 
-            marginBottom: 6,
-            letterSpacing: '0.02em'
+            marginBottom: 0,
+            letterSpacing: '0.02em',
+            lineHeight: 1.3
           }}>
-            聚心
-          </div>
-          <div style={{ 
-            fontSize: 13, 
-            color: '#6b7280', 
-            letterSpacing: '0.15em',
-            fontWeight: 500
-          }}>
-            ADHD
+            聚心ADHD公益基金
           </div>
         </div>
       )}

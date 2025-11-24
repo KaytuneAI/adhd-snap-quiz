@@ -10,12 +10,34 @@
       // 微信浏览器字体大小锁定
       (function() {
         if (/micromessenger/i.test(navigator.userAgent)) {
+          // 方法1: 使用 WeixinJSBridge API 锁定字体
           if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") {
             WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize' : 0 });
             WeixinJSBridge.on('menu:setfont', function() {
               WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize' : 0 });
             });
+          } else {
+            // 如果 WeixinJSBridge 还没加载，监听加载事件
+            document.addEventListener('WeixinJSBridgeReady', function() {
+              WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize' : 0 });
+              WeixinJSBridge.on('menu:setfont', function() {
+                WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize' : 0 });
+              });
+            });
           }
+          
+          // 方法2: 强制设置 body 字体大小，防止被覆盖
+          document.addEventListener('DOMContentLoaded', function() {
+            var style = document.createElement('style');
+            style.textContent = `
+              body, body * {
+                -webkit-text-size-adjust: 100% !important;
+                text-size-adjust: 100% !important;
+                font-size-adjust: none !important;
+              }
+            `;
+            document.head.appendChild(style);
+          });
         }
       })();
 
@@ -24,6 +46,13 @@
         function setVh() {
           var vh = window.innerHeight * 0.01;
           document.documentElement.style.setProperty('--vh', vh + 'px');
+          
+          // 动态字体缩放：基于视口高度计算字体缩放因子
+          // 基准高度 667px (iPhone 8)，缩放范围 0.85 - 1.15
+          var baseHeight = 667;
+          var currentHeight = window.innerHeight;
+          var scaleFactor = Math.max(0.85, Math.min(1.15, currentHeight / baseHeight));
+          document.documentElement.style.setProperty('--font-scale', scaleFactor);
         }
         setVh();
         window.addEventListener('resize', setVh);

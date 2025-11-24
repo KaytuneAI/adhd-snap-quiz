@@ -16,6 +16,7 @@ function Quiz() {
   const navigate = useNavigate()
   const [currentPage, setCurrentPage] = useState(0)
   const [answers, setAnswers] = useState(Array(snapItems.length).fill(null))
+  const [showHint, setShowHint] = useState(false)
 
   // 恢复本地进度
   useEffect(() => {
@@ -128,12 +129,6 @@ function Quiz() {
         </div>
 
         <div className="card-footer">
-          {!allCurrentPageAnswered && (
-            <p className="answer-required-hint">
-              所有问题必须回答后才能继续。
-            </p>
-          )}
-
           <div className="footer-nav">
             {currentPage > 0 && (
               <button
@@ -144,20 +139,32 @@ function Quiz() {
                 上一页
               </button>
             )}
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={handleNext}
-              disabled={!allCurrentPageAnswered}
-              style={{ 
-                opacity: !allCurrentPageAnswered ? 0.6 : 1,
-                cursor: !allCurrentPageAnswered ? 'not-allowed' : 'pointer',
-                width: currentPage === 0 ? '100%' : 'auto',
-                flex: currentPage === 0 ? 1 : 'none'
-              }}
-            >
-              {currentPage === totalPages - 1 ? '查看结果' : '下一页'}
-            </button>
+            <div style={{ position: 'relative', width: currentPage === 0 ? '100%' : 'auto', flex: currentPage === 0 ? 1 : 'none' }}>
+              {showHint && (
+                <div className="hint-bubble">
+                  所有问题必须回答后才能继续。
+                </div>
+              )}
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => {
+                  if (!allCurrentPageAnswered) {
+                    setShowHint(true)
+                    setTimeout(() => setShowHint(false), 3000)
+                    return
+                  }
+                  handleNext()
+                }}
+                style={{ 
+                  opacity: !allCurrentPageAnswered ? 0.6 : 1,
+                  cursor: !allCurrentPageAnswered ? 'not-allowed' : 'pointer',
+                  width: '100%'
+                }}
+              >
+                {currentPage === totalPages - 1 ? '查看结果' : '下一页'}
+              </button>
+            </div>
           </div>
         </div>
       </div>
