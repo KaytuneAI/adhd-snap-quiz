@@ -2,49 +2,43 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import snapItems from '../data/snap_iv_26_items.json'
 import { computeSnapScores } from '../utils/snapScoring'
 import Logo from '../components/Logo'
-
-function domainLabel(domain) {
-  switch (domain) {
-    case 'inattention':
-      return '注意力相关特征'
-    case 'hyperactivity_impulsivity':
-      return '多动 / 冲动相关特征'
-    case 'oppositional':
-      return '对立违抗相关特征'
-    default:
-      return domain
-  }
-}
+import { getTranslations } from '../utils/translations'
 
 function Result() {
   const navigate = useNavigate()
   const location = useLocation()
   const answers = location.state?.answers
+  const lang = location.state?.lang || 'zh'
+  const t = getTranslations(lang)
+
+  function domainLabel(domain) {
+    return t.result.domains[domain] || domain
+  }
 
   if (!answers) {
     // 若用户直接访问 /result，没有答案，就跳回首页
     return (
       <div className="page">
         <div className="card">
-          <h2>暂无测评结果</h2>
-          <p>请先完成一次问卷测评，再查看结果。</p>
+          <h2>{t.result.noResult}</h2>
+          <p>{t.result.noResultDesc}</p>
           <button className="btn btn-primary" onClick={() => navigate('/')}>
-            返回首页
+            {t.result.backButton}
           </button>
         </div>
       </div>
     )
   }
 
-  const scores = computeSnapScores(snapItems, answers)
+  const scores = computeSnapScores(snapItems, answers, lang)
 
   return (
     <div className="page">
       <div className="card result-card">
         <Logo size={70} showText={true} showAdhd={false} />
-        <h2 style={{ fontSize: 18, marginBottom: 8, marginTop: 8 }}>SNAP-IV ADHD评测结果</h2>
+        <h2 style={{ fontSize: 18, marginBottom: 8, marginTop: 8 }}>{t.result.title}</h2>
         <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 16 }}>
-          以下结果基于 SNAP-IV 量表，仅用于了解孩子在不同维度的行为特征，不构成医学诊断。
+          {t.result.description}
         </p>
 
         {Object.entries(scores).map(([domain, detail]) => (
@@ -67,7 +61,7 @@ function Result() {
             >
               <div style={{ fontWeight: 600 }}>{domainLabel(domain)}</div>
               <div className={`result-chip ${detail.chipClass}`}>
-                {detail.label}（均分 {detail.average}）
+                {detail.label} ({t.result.averageScore} {detail.average})
               </div>
             </div>
             <div style={{ fontSize: 13, color: '#4b5563' }}>{detail.desc}</div>
@@ -75,7 +69,7 @@ function Result() {
         ))}
 
         <p style={{ fontSize: 12, color: '#9ca3af', marginTop: 4 }}>
-          如您对结果存有疑虑，或孩子在学习、人际和情绪方面已有明显困扰，建议尽快咨询儿科、精神科或儿童心理专业人士。
+          {t.result.disclaimer}
         </p>
 
         <button
@@ -83,7 +77,7 @@ function Result() {
           style={{ marginTop: 16 }}
           onClick={() => navigate('/')}
         >
-          返回首页
+          {t.result.backButton}
         </button>
       </div>
     </div>

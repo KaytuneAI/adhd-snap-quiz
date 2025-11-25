@@ -1,4 +1,5 @@
 // src/utils/snapScoring.js
+import { getTranslations } from './translations'
 
 // 简单的等级划分：基于临床阈值做一个 UI 友好版本
 const thresholds = {
@@ -7,40 +8,42 @@ const thresholds = {
   oppositional: 1.88,
 }
 
-function levelFromAverage(domain, avg) {
+function levelFromAverage(domain, avg, lang = 'zh') {
   const t = thresholds[domain] ?? 1.5
+  const t_ = getTranslations(lang)
+  
   if (avg < t * 0.5) {
     return {
       key: 'normal',
-      label: '正常范围',
+      label: t_.result.levels.normal.label,
       chipClass: 'chip-normal',
-      desc: '当前量表结果总体在正常范围内，可继续日常观察。',
+      desc: t_.result.levels.normal.desc,
     }
   } else if (avg < t) {
     return {
       key: 'mild',
-      label: '轻微的 ADHD 相关特征',
+      label: t_.result.levels.mild.label,
       chipClass: 'chip-mild',
-      desc: '在该维度上呈现出轻微的注意力或行为特征，建议在学习与生活中给予适当支持。',
+      desc: t_.result.levels.mild.desc,
     }
   } else if (avg < t + 0.5) {
     return {
       key: 'moderate',
-      label: '中度的 ADHD 相关特征',
+      label: t_.result.levels.moderate.label,
       chipClass: 'chip-moderate',
-      desc: '该维度得分较高，建议结合日常表现，必要时可咨询专业医生或心理专家。',
+      desc: t_.result.levels.moderate.desc,
     }
   } else {
     return {
       key: 'strong',
-      label: '显著的 ADHD 相关特征',
+      label: t_.result.levels.strong.label,
       chipClass: 'chip-strong',
-      desc: '该维度特征较为明显，建议尽快寻求专业机构的进一步评估与支持。',
+      desc: t_.result.levels.strong.desc,
     }
   }
 }
 
-export function computeSnapScores(items, answers) {
+export function computeSnapScores(items, answers, lang = 'zh') {
   const domains = {}
 
   items.forEach((item, idx) => {
@@ -59,7 +62,7 @@ export function computeSnapScores(items, answers) {
     const avg = count > 0 ? sum / count : 0
     result[domain] = {
       average: Number(avg.toFixed(2)),
-      ...levelFromAverage(domain, avg),
+      ...levelFromAverage(domain, avg, lang),
     }
   })
 

@@ -1,19 +1,23 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import snapItems from '../data/snap_iv_26_items.json'
-
-const OPTIONS = [
-  { value: 0, label: '从不 / 很少', color: '#bbf7d0', borderColor: '#16a34a' }, // 柔和的浅绿色 + 深绿色边框
-  { value: 1, label: '偶尔', color: '#86efac', borderColor: '#059669' }, // 稍深一点的绿色 + 深绿色边框
-  { value: 2, label: '经常', color: '#fecaca', borderColor: '#ef4444' }, // 更浅的红色 + 深红色边框
-  { value: 3, label: '非常经常', color: '#fca5a5', borderColor: '#dc2626' }, // 柔和的浅红色 + 深红色边框
-]
+import { getTranslations } from '../utils/translations'
 
 const QUESTIONS_PER_PAGE = 3
 const STORAGE_KEY = 'snap_answers_v1'
 
 function Quiz() {
   const navigate = useNavigate()
+  const location = useLocation()
+  const lang = location.state?.lang || 'zh'
+  const t = getTranslations(lang)
+  
+  const OPTIONS = t.options.map(opt => ({
+    ...opt,
+    color: opt.value === 0 ? '#bbf7d0' : opt.value === 1 ? '#86efac' : opt.value === 2 ? '#fecaca' : '#fca5a5',
+    borderColor: opt.value === 0 ? '#16a34a' : opt.value === 1 ? '#059669' : opt.value === 2 ? '#ef4444' : '#dc2626'
+  }))
+
   const [currentPage, setCurrentPage] = useState(0)
   const [answers, setAnswers] = useState(Array(snapItems.length).fill(null))
   const [showHint, setShowHint] = useState(false)
@@ -56,7 +60,7 @@ function Quiz() {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } else {
       // 全部答完，跳转结果页
-      navigate('/result', { state: { answers } })
+      navigate('/result', { state: { answers, lang } })
     }
   }
 
@@ -81,11 +85,11 @@ function Quiz() {
               <div className="progress-bar">
                 <div className="progress-inner" style={{ width: `${progress}%` }} />
               </div>
-              <span className="progress-step">Step {currentPage + 1} of {totalPages}</span>
+              <span className="progress-step">{t.quiz.step} {currentPage + 1} of {totalPages}</span>
             </div>
           </div>
 
-          <h2 className="quiz-title">请选择每项描述与孩子的符合程度</h2>
+          <h2 className="quiz-title">{t.quiz.title}</h2>
 
           <div className="options-legend">
             {OPTIONS.map((opt) => (
@@ -104,7 +108,7 @@ function Quiz() {
               return (
                 <div key={question.id} className="question-card">
                   <div className="question-text">
-                    {question.text_cn}
+                    {lang === 'zh' ? question.text_cn : question.text_en}
                   </div>
                   <div className="balloon-options">
                     {OPTIONS.map((opt) => (
@@ -136,13 +140,13 @@ function Quiz() {
                 className="btn btn-secondary"
                 onClick={handlePrev}
               >
-                上一页
+                {t.quiz.prevButton}
               </button>
             )}
             <div style={{ position: 'relative', width: currentPage === 0 ? '100%' : 'auto', flex: currentPage === 0 ? 1 : 'none' }}>
               {showHint && (
                 <div className="hint-bubble">
-                  所有问题必须回答后才能继续。
+                  {t.quiz.hint}
                 </div>
               )}
               <button
@@ -162,7 +166,7 @@ function Quiz() {
                   width: '100%'
                 }}
               >
-                {currentPage === totalPages - 1 ? '查看结果' : '下一页'}
+                {currentPage === totalPages - 1 ? t.quiz.viewResult : t.quiz.nextButton}
               </button>
             </div>
           </div>
