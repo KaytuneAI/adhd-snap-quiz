@@ -7,7 +7,8 @@ html, body {
   padding: 0;
   height: 100%;
   width: 100%;
-  overflow: hidden;              /* 仍然把滚动权交给内部容器 */
+  overflow-x: hidden;              /* 只禁止横向滚动 */
+  overflow-y: auto;                /* 允许纵向滚动 */
   -webkit-text-size-adjust: 100% !important;
   text-size-adjust: 100% !important;
   background: #f5f5fa;
@@ -31,17 +32,18 @@ body * {
 
 /* #root 允许内部撑开，交给 .app-shell 控制高度 */
 #root {
-  height: 100%;
-  overflow: hidden;
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .app-shell {
-  min-height: calc(var(--vh, 1vh) * 100);   /* 保证至少一屏高 */
-  height: 100%;                             /* 与 #root 同步 */
+  min-height: 100%;                          /* 保证至少一屏高 */
   display: flex;
   justify-content: center;
   align-items: stretch;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .page {
@@ -49,9 +51,15 @@ body * {
   max-width: 480px;
   margin: 0 auto;
   padding: 16px 16px 24px;
-  height: 100%;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
+}
+
+/* Result页面允许滚动 */
+.page:has(.result-card) {
+  height: auto;
+  min-height: 100%;
 }
 
 .card {
@@ -131,6 +139,8 @@ body * {
 
 .result-card {
   justify-content: flex-start;
+  max-height: none; /* 移除高度限制，允许内容自然撑开 */
+  min-height: auto; /* 允许内容决定高度 */
 }
 
 h1, h2, h3 {
@@ -500,6 +510,70 @@ p {
   color: #7f1d1d;
 }
 
+/* 体检评分滑动条样式 */
+.score-slider-container {
+  width: 100%;
+}
+
+.score-slider-track {
+  position: relative;
+  width: 100%;
+  height: 10px;
+  background: #e5e7eb;
+  border-radius: 5px;
+  overflow: visible;
+  margin-bottom: 6px;
+}
+
+.score-segment {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border-radius: 5px;
+}
+
+.score-segment-normal {
+  background: #dcfce7;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.score-segment-mild {
+  background: #fef3c7;
+}
+
+.score-segment-moderate {
+  background: #fee2e2;
+}
+
+.score-segment-strong {
+  background: #fecaca;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.score-slider-indicator {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 3px solid #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  z-index: 10;
+  transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease;
+}
+
+.score-slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #9ca3af;
+  padding: 0 2px;
+  font-weight: 500;
+}
+
 /* Logo 动画效果 - 微笑笑脸 */
 .logo-animated {
   animation: logoFloat 4s ease-in-out infinite;
@@ -613,5 +687,215 @@ p {
 
 .btn-start:active {
   transform: scale(0.98);
+}
+
+/* AI 魔法加载动画 */
+.ai-loading-animation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.magic-circle {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+}
+
+.magic-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.magic-ring-1 {
+  width: 60px;
+  height: 60px;
+  border-top-color: #aad2d1;
+  border-right-color: #aad2d1;
+  animation: magicRotate 4s linear infinite;
+  box-shadow: 0 0 10px rgba(170, 210, 209, 0.5);
+}
+
+.magic-ring-2 {
+  width: 50px;
+  height: 50px;
+  border-bottom-color: #7fb8b7;
+  border-left-color: #7fb8b7;
+  animation: magicRotate 3s linear infinite reverse;
+  box-shadow: 0 0 8px rgba(127, 184, 183, 0.4);
+}
+
+.magic-ring-3 {
+  width: 40px;
+  height: 40px;
+  border-top-color: #dd5262;
+  border-right-color: #dd5262;
+  animation: magicRotate 2s linear infinite;
+  box-shadow: 0 0 6px rgba(221, 82, 98, 0.3);
+}
+
+.magic-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #aad2d1, #dd5262);
+  animation: magicPulse 3s ease-in-out infinite;
+  box-shadow: 
+    0 0 15px rgba(170, 210, 209, 0.6),
+    0 0 25px rgba(221, 82, 98, 0.4),
+    inset 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.magic-particles {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+}
+
+.magic-particles span {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #aad2d1, #dd5262);
+  box-shadow: 0 0 6px rgba(170, 210, 209, 0.8);
+}
+
+.magic-particles span:nth-child(1) {
+  top: 0;
+  left: 50%;
+  animation: magicParticle 4s ease-in-out infinite;
+  animation-delay: 0s;
+}
+
+.magic-particles span:nth-child(2) {
+  top: 50%;
+  right: 0;
+  animation: magicParticle 4s ease-in-out infinite;
+  animation-delay: 0.66s;
+}
+
+.magic-particles span:nth-child(3) {
+  bottom: 0;
+  left: 50%;
+  animation: magicParticle 4s ease-in-out infinite;
+  animation-delay: 1.32s;
+}
+
+.magic-particles span:nth-child(4) {
+  top: 50%;
+  left: 0;
+  animation: magicParticle 4s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+.magic-particles span:nth-child(5) {
+  top: 15%;
+  right: 15%;
+  animation: magicParticle 4s ease-in-out infinite;
+  animation-delay: 2.66s;
+}
+
+.magic-particles span:nth-child(6) {
+  bottom: 15%;
+  left: 15%;
+  animation: magicParticle 4s ease-in-out infinite;
+  animation-delay: 3.32s;
+}
+
+.magic-text {
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
+  animation: magicTextGlow 4s ease-in-out infinite;
+  letter-spacing: 0.5px;
+}
+
+@keyframes magicRotate {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes magicPulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    box-shadow: 
+      0 0 15px rgba(170, 210, 209, 0.6),
+      0 0 25px rgba(221, 82, 98, 0.4),
+      inset 0 0 10px rgba(255, 255, 255, 0.3);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0.8;
+    box-shadow: 
+      0 0 25px rgba(170, 210, 209, 0.9),
+      0 0 40px rgba(221, 82, 98, 0.6),
+      inset 0 0 15px rgba(255, 255, 255, 0.5);
+  }
+}
+
+@keyframes magicParticle {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.5) translateY(-30px);
+    opacity: 1;
+  }
+}
+
+@keyframes magicTextGlow {
+  0%, 100% {
+    opacity: 0.7;
+    text-shadow: 0 0 5px rgba(170, 210, 209, 0.3);
+  }
+  50% {
+    opacity: 1;
+    text-shadow: 0 0 10px rgba(170, 210, 209, 0.6);
+  }
+}
+
+/* AI 分析内容滚动样式 */
+.ai-analysis-content {
+  scrollbar-width: thin;
+  scrollbar-color: #aad2d1 #f3f4f6;
+}
+
+.ai-analysis-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ai-analysis-content::-webkit-scrollbar-track {
+  background: #f3f4f6;
+  border-radius: 10px;
+}
+
+.ai-analysis-content::-webkit-scrollbar-thumb {
+  background: #aad2d1;
+  border-radius: 10px;
+}
+
+.ai-analysis-content::-webkit-scrollbar-thumb:hover {
+  background: #7fb8b7;
 }
 

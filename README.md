@@ -9,6 +9,7 @@
 - 💾 自动保存答题进度（localStorage）
 - 📊 本地评分计算，无需后端
 - 🎯 分页答题，每页 3 题
+- 🤖 AI 专业分析（基于 DeepSeek API）
 - 🏥 聚心 ADHD 基金会品牌标识
 
 ## 技术栈
@@ -25,6 +26,16 @@
 ```bash
 npm install
 ```
+
+### 配置环境变量
+
+创建 `.env` 文件并配置 Qwen API 密钥：
+
+```bash
+VITE_QWEN_API_KEY=your_qwen_api_key_here
+```
+
+获取 API 密钥：https://dashscope.console.aliyun.com/
 
 ### 开发模式
 
