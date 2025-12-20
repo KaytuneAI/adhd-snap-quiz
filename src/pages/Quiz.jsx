@@ -14,8 +14,8 @@ function Quiz() {
   
   const OPTIONS = t.options.map(opt => ({
     ...opt,
-    color: opt.value === 0 ? '#bbf7d0' : opt.value === 1 ? '#86efac' : opt.value === 2 ? '#fecaca' : '#fca5a5',
-    borderColor: opt.value === 0 ? '#16a34a' : opt.value === 1 ? '#059669' : opt.value === 2 ? '#ef4444' : '#dc2626'
+    color: opt.value === 0 ? '#aad2d1' : opt.value === 1 ? '#c5e3e2' : opt.value === 2 ? '#f5b8be' : '#e88a94',
+    borderColor: opt.value === 0 ? '#7fb8b7' : opt.value === 1 ? '#9dd0cf' : opt.value === 2 ? '#f0a0a8' : '#d66b7a'
   }))
 
   const [currentPage, setCurrentPage] = useState(0)
@@ -108,6 +108,7 @@ function Quiz() {
               return (
                 <div key={question.id} className="question-card">
                   <div className="question-text">
+                    <span className="question-number">{globalIndex + 1}.</span>
                     {lang === 'zh' ? question.text_cn : question.text_en}
                   </div>
                   <div className="balloon-options">
@@ -134,16 +135,19 @@ function Quiz() {
 
         <div className="card-footer">
           <div className="footer-nav">
-            {currentPage > 0 && (
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={handlePrev}
-              >
-                {t.quiz.prevButton}
-              </button>
-            )}
-            <div style={{ position: 'relative', width: currentPage === 0 ? '100%' : 'auto', flex: currentPage === 0 ? 1 : 'none' }}>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={handlePrev}
+              disabled={currentPage === 0}
+              style={{
+                opacity: currentPage === 0 ? 0.5 : 1,
+                cursor: currentPage === 0 ? 'not-allowed' : 'pointer'
+              }}
+            >
+              {t.quiz.prevButton}
+            </button>
+            <div style={{ position: 'relative', flex: 1 }}>
               {showHint && (
                 <div className="hint-bubble">
                   {t.quiz.hint}

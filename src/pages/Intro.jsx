@@ -5,76 +5,52 @@ import { getTranslations } from '../utils/translations'
 
 function Intro() {
   const navigate = useNavigate()
-  const [selectedLang, setSelectedLang] = useState(null)
-  const [t, setT] = useState(getTranslations('zh'))
-
-  const handleLangSelect = (lang) => {
-    setSelectedLang(lang)
-    setT(getTranslations(lang))
-  }
+  const [lang, setLang] = useState('zh')
+  const t = getTranslations(lang)
 
   const handleStart = () => {
-    if (selectedLang) {
-      navigate('/quiz', { state: { lang: selectedLang } })
-    }
+    navigate('/quiz', { state: { lang } })
+  }
+
+  const handleLangToggle = () => {
+    setLang(lang === 'zh' ? 'en' : 'zh')
   }
 
   return (
     <div className="page">
       <div className="card intro-card">
-        <Logo size={100} showText={true} />
-        <h1 style={{ fontSize: 20, marginBottom: 12 }}>{t.intro.title}</h1>
-        <p style={{ fontSize: 14, marginBottom: 8 }}>{t.intro.subtitle}</p>
-        <p style={{ fontSize: 14, marginBottom: 12 }}>{t.intro.description}</p>
-        
-        {!selectedLang && (
-          <div style={{ marginTop: 20, marginBottom: 16 }}>
-            <p style={{ fontSize: 14, marginBottom: 12, fontWeight: 600, textAlign: 'center' }}>
-              {t.intro.selectLanguage}
-            </p>
-            <div style={{ display: 'flex', gap: 12 }}>
-              <button
-                className="btn btn-secondary"
-                onClick={() => handleLangSelect('zh')}
-                style={{ flex: 1 }}
-              >
-                中文
-              </button>
-              <button
-                className="btn btn-secondary"
-                onClick={() => handleLangSelect('en')}
-                style={{ flex: 1 }}
-              >
-                English
-              </button>
-            </div>
-          </div>
-        )}
+        {/* 语言切换文字 - 在卡片内右上角 */}
+        <span
+          className="lang-toggle-text"
+          onClick={handleLangToggle}
+        >
+          {lang === 'zh' ? 'Eng' : '中文'}
+        </span>
 
-        {selectedLang && (
-          <>
-            <p style={{ fontSize: 11, color: '#9ca3af', marginTop: 12, lineHeight: 1.4 }}>
-              {t.intro.disclaimer}
-            </p>
-            <button 
-              className="btn btn-primary" 
-              style={{ marginTop: 20, marginBottom: 8 }} 
-              onClick={handleStart}
-            >
-              {t.intro.startButton}
-            </button>
-            <button
-              className="btn btn-secondary"
-              style={{ marginTop: 8 }}
-              onClick={() => {
-                setSelectedLang(null)
-                setT(getTranslations('zh'))
-              }}
-            >
-              {t.intro.changeLanguage}
-            </button>
-          </>
-        )}
+        {/* Logo 区域 - 占 40% */}
+        <div className="intro-logo-section">
+          <Logo size={150} showText={true} />
+        </div>
+
+        {/* 内容区域 - 占 40% */}
+        <div className="intro-content-section">
+          <h1 style={{ fontSize: 20, marginBottom: 12 }}>{t.intro.title}</h1>
+          <p style={{ fontSize: 14, marginBottom: 8 }}>{t.intro.subtitle}</p>
+          <p style={{ fontSize: 14, marginBottom: 8 }}>{t.intro.description}</p>
+          <p style={{ fontSize: 11, color: '#9ca3af', lineHeight: 1.4 }}>
+            {t.intro.disclaimer}
+          </p>
+        </div>
+
+        {/* 按钮区域 - 占剩余空间（约 20%） */}
+        <div className="intro-button-section">
+          <button 
+            className="btn btn-start" 
+            onClick={handleStart}
+          >
+            {t.intro.startButton}
+          </button>
+        </div>
       </div>
     </div>
   )

@@ -69,6 +69,7 @@ body * {
 /* 进度条 + 标题区域 */
 .card-header {
   flex: 0 0 auto;
+  margin-bottom: 25px;
 }
 
 /* 题干 + 选项区域，可滚动 */
@@ -88,7 +89,44 @@ body * {
 }
 
 .intro-card {
+  justify-content: flex-start;
+  padding: 20px 16px 16px;
+  position: relative;
+}
+
+/* Intro 页面布局 - 按视口比例分配 */
+.intro-logo-section {
+  flex: 0 0 40vh;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  min-height: 40vh;
+  max-height: 40vh;
+}
+
+.intro-content-section {
+  flex: 0 0 40vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 40vh;
+  max-height: 40vh;
+  padding: 8px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.intro-button-section {
+  position: absolute;
+  top: 80%;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-50%);
 }
 
 .result-card {
@@ -195,11 +233,10 @@ p {
   align-items: center;
   margin-bottom: 0;
   padding: 12px 10px;
-  background: #f8f9fa;
-  border-radius: 16px;
+  background: transparent;
   flex-wrap: wrap;
   gap: 6px;
-  border: 1px solid #e9ecef;
+  border: none;
 }
 
 .legend-item {
@@ -272,6 +309,12 @@ p {
   color: #1f2937;
   line-height: 1.4;
   font-weight: 500;
+}
+
+.question-number {
+  font-weight: 600;
+  color: #4b5563;
+  margin-right: 6px;
 }
 
 .balloon-options {
@@ -455,5 +498,120 @@ p {
 .chip-strong {
   background: #fecaca;
   color: #7f1d1d;
+}
+
+/* Logo 动画效果 - 微笑笑脸 */
+.logo-animated {
+  animation: logoFloat 4s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-4px) scale(1.015);
+  }
+}
+
+/* 眼睛 - 眨眼效果（更自然的眨眼） */
+.logo-circle-top {
+  animation: logoBlink 4s ease-in-out infinite;
+  transform-origin: 60px 20px;
+}
+
+@keyframes logoBlink {
+  0%, 85%, 100% {
+    transform: scaleY(1) scaleX(1);
+    opacity: 1;
+  }
+  87%, 93% {
+    transform: scaleY(0.08) scaleX(1);
+    opacity: 0.85;
+  }
+}
+
+/* 嘴巴 - 微笑动画（配合 SVG 路径变化） */
+.logo-arc {
+  animation: logoSmileArc 4s ease-in-out infinite;
+  transform-origin: 60px 60px;
+}
+
+@keyframes logoSmileArc {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-4px);
+    opacity: 0.98;
+  }
+}
+
+/* 脸颊 - 微笑时的上扬和放大（更明显） */
+.logo-circle-left {
+  animation: logoCheekLeft 4s ease-in-out infinite;
+  transform-origin: 30px 50px;
+}
+
+.logo-circle-right {
+  animation: logoCheekRight 4s ease-in-out infinite;
+  transform-origin: 90px 50px;
+}
+
+@keyframes logoCheekLeft {
+  0%, 100% {
+    transform: scale(1) translate(0, 0);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.25) translate(-3px, -4px);
+    opacity: 0.95;
+  }
+}
+
+@keyframes logoCheekRight {
+  0%, 100% {
+    transform: scale(1) translate(0, 0);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.25) translate(3px, -4px);
+    opacity: 0.95;
+  }
+}
+
+/* 语言切换文字 - 在卡片内右上角 */
+.lang-toggle-text {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #9ca3af;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  z-index: 10;
+  user-select: none;
+}
+
+.lang-toggle-text:hover {
+  color: #6b7280;
+}
+
+/* 淡蓝色开始按钮 */
+.btn-start {
+  background: #bfdbfe;
+  color: #1e40af;
+  border: none;
+}
+
+.btn-start:hover {
+  background: #93c5fd;
+  color: #1e3a8a;
+}
+
+.btn-start:active {
+  transform: scale(0.98);
 }
 
