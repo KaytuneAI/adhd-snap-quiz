@@ -1,29 +1,77 @@
 // src/utils/deepseekApi.js
 
-// 使用阿里云 DashScope 兼容 OpenAI 格式的接口
-// 通过 Vite 代理解决 CORS 问题
-const QWEN_API_URL = import.meta.env.DEV 
-  ? '/api/qwen'  // 开发环境使用 Vite 代理
-  : 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions'  // 生产环境需要后端代理
+// 支持 DeepSeek 和 Qwen (DashScope) 两种 API
+// 通过环境变量 VITE_AI_PROVIDER 切换：'deepseek' 或 'qwen'（默认）
+const AI_PROVIDER = import.meta.env.VITE_AI_PROVIDER || 'qwen'
+
+// API URL 配置
+const getApiUrl = () => {
+  if (AI_PROVIDER === 'deepseek') {
+    return import.meta.env.DEV
+      ? '/api/deepseek'  // 开发环境使用 Vite 代理
+      : 'https://api.deepseek.com/v1/chat/completions'  // 生产环境
+  } else {
+    // Qwen (DashScope)
+    return import.meta.env.DEV
+      ? '/api/qwen'  // 开发环境使用 Vite 代理
+      : 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions'  // 生产环境
+  }
+}
+
+const API_URL = getApiUrl()
+
+// 模型配置
+const getModel = () => {
+  if (AI_PROVIDER === 'deepseek') {
+    return 'deepseek-chat'  // DeepSeek 模型
+  } else {
+    return 'qwen-plus'  // Qwen 模型
+  }
+}
 
 /**
- * 调用Qwen API生成AI分析
+ * 调用AI API生成分析（流式输出）- 支持 DeepSeek 和 Qwen
  * @param {Array} items - 题目数据
  * @param {Array} answers - 用户答案
  * @param {Object} scores - 计算出的分数
  * @param {string} lang - 语言 ('zh' 或 'en')
- * @param {string} apiKey - Qwen API密钥（DashScope API Key）
+ * @param {string} apiKey - API密钥（DeepSeek 或 DashScope API Key）
+ * @param {Function} onChunk - 流式输出回调函数，接收每个数据块
  * @returns {Promise<string>} AI生成的分析文本
  */
-export async function generateAIAnalysis(items, answers, scores, lang = 'zh', apiKey) {
+export async function generateAIAnalysis(items, answers, scores, lang = 'zh', apiKey, onChunk = null) {
   if (!apiKey) {
-    throw new Error('Qwen API key is required')
+    throw new Error(`${AI_PROVIDER === 'deepseek' ? 'DeepSeek' : 'Qwen'} API key is required`)
   }
 
   // 构建系统提示词
   const systemPrompt = lang === 'zh'
-    ? `你是一位具有儿童心理与发展行为专业背景的 AI 助手，熟悉 SNAP-IV 量表，同时非常擅长用温馨、鼓励、儿童友好的方式向家长和孩子解释结果，并给出可操作、生活化的建议。`
-    : `You are an AI assistant with a professional background in child psychology and developmental behavior, familiar with the SNAP-IV scale, and very good at explaining results to parents and children in a warm, encouraging, and child-friendly way, and providing actionable, life-oriented advice.`
+    ? `你是一位具有儿童心理与发展行为专业背景的 AI 助手，熟悉 SNAP-IV 量表。你的核心定位是"翻译量表的人"，而非"诊断者"。
+
+你的职责：
+1. 将 SNAP-IV 量表数据转化为家庭友好的理解
+2. 用温馨、鼓励、支持型语言解释行为特征
+3. 提供可操作的家庭支持建议
+4. 明确边界：这是初步筛查，不是医学诊断
+
+重要原则：
+- 不制造焦虑，不贴标签
+- 强调"支持""发展""可塑性"
+- 用词克制、专业、温暖
+- 让家长看得懂、看得安心`
+    : `You are an AI assistant with a professional background in child psychology and developmental behavior, familiar with the SNAP-IV scale. Your core role is to "translate the scale" for families, not to "diagnose".
+
+Your responsibilities:
+1. Translate SNAP-IV scale data into family-friendly understanding
+2. Explain behavioral characteristics in warm, encouraging, supportive language
+3. Provide actionable family support recommendations
+4. Clearly define boundaries: this is preliminary screening, not medical diagnosis
+
+Key principles:
+- Do not create anxiety or label
+- Emphasize "support", "development", "plasticity"
+- Use restrained, professional, warm language
+- Make it understandable and reassuring for parents`
 
   // 构建用户消息，包含逐题评分数据
   let userMessage = lang === 'zh'
@@ -105,88 +153,86 @@ Item-by-item scoring data:
 
     userMessage += `\n三、请你按照以下【结构化方式】输出分析结果
 
-① 整体理解（写给家长，也能让孩子听懂）
+请严格按照以下5个部分输出，每个部分用明确的标题分隔：
 
-用不超过 1–2 段话，总体描述孩子目前呈现的行为特点
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-重点放在：
+【一、整体理解】
 
-行为是连续光谱，而非"有 / 没有问题"
+用 1–2 段话，总体描述孩子目前呈现的行为特点。
 
-孩子在哪些方面比较辛苦
+重点：
+- 强调行为是连续光谱，而非"有/没有问题"的二元判断
+- 说明孩子在哪些方面可能需要更多支持
+- 指出孩子在哪些方面具备潜在优势
+- 避免使用"障碍""异常""问题儿童"等标签化词汇
 
-孩子在哪些方面具备潜在优势
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-⚠️ 请避免使用"障碍""异常""问题儿童"等标签化词汇
+【二、分维度解读】
 
-② 分维度解读（注意力 / 多动冲动 / 情绪与对立）
+对每个维度（注意力、多动冲动、情绪与对立），分别用2-3句话简洁说明：
 
-对每一类维度，请分别说明：
+1. 这个维度在看什么（一句话）
+2. 本次结果反映了什么（用"可能""倾向"等中性语言，一句话）
+3. 在真实生活中可能的表现（一句话，简要提及课堂、家庭或社交场景）
 
-从题目分布本身看，比较突出的行为模式是什么
+⚠️ 每个维度控制在3句话以内，不要用"明显异常""问题显著"等词汇
+⚠️ 整体保持简洁，避免冗长描述
 
-这些表现在真实生活中可能意味着什么（课堂、家庭、社交）
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-哪些是需要支持的地方，哪些是发展中的正常挑战
+【三、家庭支持建议】
 
-③ 给家长的【实用支持建议】（重点）
+提供具体、可操作、非药物优先的建议，每个方面用2-3句话简洁说明：
 
-请给出 具体、可操作、非药物优先 的建议，例如：
+🏠 家庭环境与作息（2-3句话）
+📚 学习与任务支持（2-3句话）
+💬 情绪与沟通（2-3句话）
+🌱 鼓励与成长心态（2-3句话）
 
-学习与作业情境
+⚠️ 不要出现"纠正""控制""必须"等词汇
+✅ 使用"可以尝试""有助于""在支持下"等支持型语言
+⚠️ 整体保持简洁，每个方面控制在2-3句话，避免冗长
 
-日常作息与环境结构
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-情绪调节与亲子互动
+【四、给孩子的话】
 
-鼓励方式与反馈方式
+用温柔、鼓励、理解孩子感受的语言，传达3个核心信息：
+- 你不是"有问题的孩子"
+- 有些事情对你来说更难，不是你的错
+- 大人会和你一起想办法、一起练习
 
-建议要：
+这段可以直接读给小朋友听。
 
-可执行（不是空泛心理建议）
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-偏向"支持型"，而不是"纠正型"
+【五、关于专业咨询】
 
-④ 是否需要就医？（非常重要的合规说明）
+用克制、专业、安心的方式说明：
 
-请用非常克制、专业、安心的方式说明：
-
-在什么情况下 "可以考虑" 咨询专业人士
-
-在什么情况下 暂时可以先观察和家庭支持
-
-明确强调：
-
-本结果仅为初步筛查，不构成医学诊断
+- 在什么情况下"可以考虑"咨询专业人士
+- 在什么情况下暂时可以先观察和家庭支持
+- 明确强调：本结果仅为初步筛查，不构成医学诊断
 
 ⚠️ 语气要求：
+- 不制造焦虑
+- 不下结论
+- 不暗示必须用药
 
-不制造焦虑
+💡 重要提示：
+- 如果提到就医、看医生、咨询专业人士等，请在适当位置自然提及：
+  "如需就医，可关注'聚心ADHD'公众号，获取'医院导航'服务，帮助您找到合适的专业医疗机构。"
+- 这句话要自然融入，不要显得突兀或广告化
 
-不下结论
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-不暗示必须用药
-
-⑤ 给孩子的一段话（可直接读给小朋友听）
-
-用 温柔、鼓励、理解孩子感受的语言
-
-传达 3 个核心信息：
-
-你不是"有问题的孩子"
-
-有些事情对你来说更难，不是你的错
-
-大人会和你一起想办法、一起练习
-
-四、整体风格要求（非常重要）
+四、整体风格要求
 
 语言：中文，偏家庭教育与儿童心理科普风格
-
 立场：支持型、发展型，而非诊断型
-
-语气关键词：
-温和｜专业｜不吓人｜不贴标签｜给希望`
+语气：温和｜专业｜不吓人｜不贴标签｜给希望`
   } else {
     // 英文版本（简化版，因为用户主要关注中文）
     userMessage += `(1) Inattention (Items 1-9)\n\n`
@@ -217,7 +263,7 @@ Use warm, professional, non-labeling language.`
   // 在控制台输出完整的prompt信息（开发环境）
   const startTime = Date.now()
   if (import.meta.env.DEV) {
-    console.group('🤖 Qwen API Request')
+    console.group(`🤖 ${AI_PROVIDER === 'deepseek' ? 'DeepSeek' : 'Qwen'} API Request`)
     console.log('📝 System Prompt:', systemPrompt)
     console.log('💬 User Message:', userMessage)
     console.log('📊 Full Prompt Length:', (systemPrompt + userMessage).length, 'characters')
@@ -226,9 +272,9 @@ Use warm, professional, non-labeling language.`
   }
 
   try {
-    // Qwen API 使用兼容 OpenAI 格式（阿里云百炼）
+    // 使用兼容 OpenAI 格式的 API（DeepSeek 或 Qwen）
     const requestBody = {
-      model: 'qwen-turbo', // 可以使用 qwen-turbo, qwen-plus, qwen-max, qwen-max-longcontext
+      model: getModel(),
       messages: [
         {
           role: 'system',
@@ -240,10 +286,11 @@ Use warm, professional, non-labeling language.`
         }
       ],
       temperature: 0.7,
-      max_tokens: 2000
+      max_tokens: 2000,
+      stream: true // 启用流式输出
     }
 
-    const response = await fetch(QWEN_API_URL, {
+    const response = await fetch(API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -256,7 +303,7 @@ Use warm, professional, non-labeling language.`
     const responseTime = Date.now()
     const requestDuration = responseTime - startTime
     if (import.meta.env.DEV) {
-      console.group('📡 Qwen API Response')
+      console.group(`📡 ${AI_PROVIDER === 'deepseek' ? 'DeepSeek' : 'Qwen'} API Response`)
       console.log('Status:', response.status, response.statusText)
       console.log('Headers:', Object.fromEntries(response.headers.entries()))
       console.log('⏱️ Request duration:', requestDuration, 'ms', `(${(requestDuration / 1000).toFixed(2)}s)`)
@@ -264,74 +311,104 @@ Use warm, professional, non-labeling language.`
 
     if (!response.ok) {
       let errorData = {}
+      let errorText = ''
       try {
-        const text = await response.text()
-        errorData = text ? JSON.parse(text) : {}
+        errorText = await response.text()
+        errorData = errorText ? JSON.parse(errorText) : {}
       } catch (e) {
         console.warn('Failed to parse error response:', e)
+        errorData = { raw: errorText }
       }
       if (import.meta.env.DEV) {
         console.error('❌ API Error:', errorData)
+        console.error('❌ Raw error text:', errorText)
         console.groupEnd()
       }
-      throw new Error(errorData.error?.message || `API request failed: ${response.status}`)
+      
+      // 提供更友好的错误信息
+      let errorMessage = errorData.error?.message || errorData.message || `API request failed: ${response.status}`
+      
+      if (response.status === 401) {
+        errorMessage = `认证失败：API密钥无效或格式错误。请检查 VITE_${AI_PROVIDER === 'deepseek' ? 'DEEPSEEK' : 'QWEN'}_API_KEY 环境变量是否正确设置。`
+        if (import.meta.env.DEV) {
+          console.error('💡 提示：请确保在 .env 文件中设置了正确的 API key')
+          console.error(`💡 当前使用的 provider: ${AI_PROVIDER}`)
+        }
+      }
+      
+      throw new Error(errorMessage)
     }
 
-    // 解析响应
-    let data
-    try {
-      const text = await response.text()
-      if (import.meta.env.DEV) {
-        console.log('📄 Raw response text length:', text.length)
+    // 流式解析响应
+    let fullContent = ''
+    const reader = response.body.getReader()
+    const decoder = new TextDecoder()
+    
+    if (import.meta.env.DEV) {
+      console.log('📡 Starting to read stream...')
+    }
+
+    while (true) {
+      const { done, value } = await reader.read()
+      
+      if (done) {
+        break
       }
-      data = JSON.parse(text)
-    } catch (parseError) {
-      if (import.meta.env.DEV) {
-        console.error('❌ Failed to parse response JSON:', parseError)
-        console.groupEnd()
+
+      // 解码数据块
+      const chunk = decoder.decode(value, { stream: true })
+      const lines = chunk.split('\n').filter(line => line.trim() !== '')
+      
+      for (const line of lines) {
+        // 跳过 SSE 格式的前缀
+        if (line.startsWith('data: ')) {
+          const dataStr = line.slice(6) // 移除 'data: ' 前缀
+          
+          // 跳过 [DONE] 标记
+          if (dataStr.trim() === '[DONE]') {
+            continue
+          }
+          
+          try {
+            const data = JSON.parse(dataStr)
+            // API 兼容 OpenAI 格式：data.choices[0].delta.content
+            const deltaContent = data.choices?.[0]?.delta?.content || ''
+            
+            if (deltaContent) {
+              fullContent += deltaContent
+              
+              // 调用回调函数，实时更新内容
+              if (onChunk) {
+                onChunk(fullContent)
+              }
+              
+              if (import.meta.env.DEV) {
+                console.log('📝 Chunk received:', deltaContent.length, 'chars, total:', fullContent.length)
+              }
+            }
+          } catch (parseError) {
+            // 忽略解析错误（可能是部分数据）
+            if (import.meta.env.DEV) {
+              console.warn('⚠️ Failed to parse chunk:', parseError, 'Line:', line)
+            }
+          }
+        }
       }
-      throw new Error('Failed to parse API response')
     }
     
     // 输出成功响应信息
     const totalDuration = Date.now() - startTime
     if (import.meta.env.DEV) {
-      console.log('✅ Response received')
-      // Qwen API 兼容 OpenAI 格式：data.choices[0].message.content
-      const contentLength = data.choices?.[0]?.message?.content?.length || 0
-      console.log('📝 Response length:', contentLength, 'characters')
-      console.log('🔢 Tokens used:', data.usage?.total_tokens || 'N/A')
+      console.log('✅ Stream completed')
+      console.log('📝 Total content length:', fullContent.length, 'characters')
       console.log('⏱️ Total duration:', totalDuration, 'ms', `(${(totalDuration / 1000).toFixed(2)}s)`)
-      console.log('💡 Full response:', data)
       console.groupEnd()
     }
-
-    // Qwen API 兼容 OpenAI 格式：data.choices[0].message.content
-    let content = data.choices?.[0]?.message?.content || ''
     
-    // 如果 choices 为空，尝试其他可能的格式
-    if (!content && data.output) {
-      content = data.output.choices?.[0]?.message?.content || ''
-    }
-    
-    if (import.meta.env.DEV) {
-      if (!content) {
-        console.warn('⚠️ Empty content in response. Full data:', data)
-        console.warn('⚠️ Available paths:', {
-          'data.choices': data.choices,
-          'data.output': data.output,
-          'data.choices[0]': data.choices?.[0],
-          'data.output.choices[0]': data.output?.choices?.[0]
-        })
-      } else {
-        console.log('✅ Content extracted successfully, length:', content.length)
-      }
-    }
-    
-    return content
+    return fullContent
   } catch (error) {
     if (import.meta.env.DEV) {
-      console.error('❌ Qwen API error:', error)
+      console.error(`❌ ${AI_PROVIDER === 'deepseek' ? 'DeepSeek' : 'Qwen'} API error:`, error)
       console.groupEnd()
     }
     throw error
@@ -351,7 +428,7 @@ export async function testAIConnection(apiKey) {
   const testPrompt = '用300个字解释ADHD的SNAP-IV的方法论原理'
 
   const requestBody = {
-    model: 'qwen-turbo',
+    model: getModel(),
     messages: [
       {
         role: 'user',
@@ -363,14 +440,12 @@ export async function testAIConnection(apiKey) {
   }
 
   const startTime = Date.now()
-  console.group('🧪 AI Connection Test')
+  console.group(`🧪 ${AI_PROVIDER === 'deepseek' ? 'DeepSeek' : 'Qwen'} Connection Test`)
   console.log('📝 Test prompt:', testPrompt)
   console.log('⏰ Request started at:', new Date().toLocaleTimeString())
 
   try {
-    const apiUrl = import.meta.env.DEV 
-      ? '/api/qwen'  // 开发环境使用代理
-      : 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions'
+    const apiUrl = API_URL
 
     const response = await fetch(apiUrl, {
       method: 'POST',

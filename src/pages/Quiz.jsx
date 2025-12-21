@@ -4,12 +4,33 @@ import snapItems from '../data/snap_iv_26_items.json'
 import { getTranslations } from '../utils/translations'
 
 const QUESTIONS_PER_PAGE = 3
-const STORAGE_KEY = 'snap_answers_v1'
+const STORAGE_KEY_ANSWERS = 'snap_answers_v1'
+const STORAGE_KEY_PROGRESS = 'snap_progress_v1'
 
 function Quiz() {
   const navigate = useNavigate()
   const location = useLocation()
-  const lang = location.state?.lang || 'zh'
+  
+  // 恢复或初始化语言
+  const getInitialLang = () => {
+    // 优先使用URL传递的语言
+    if (location.state?.lang) {
+      return location.state.lang
+    }
+    // 其次使用保存的语言
+    const savedProgress = window.localStorage.getItem(STORAGE_KEY_PROGRESS)
+    if (savedProgress) {
+      try {
+        const parsed = JSON.parse(savedProgress)
+        return parsed.lang || 'zh'
+      } catch (e) {
+        return 'zh'
+      }
+    }
+    return 'zh'
+  }
+
+  const [lang] = useState(getInitialLang)
   const t = getTranslations(lang)
   
   const OPTIONS = t.options.map(opt => ({
@@ -18,28 +39,59 @@ function Quiz() {
     borderColor: opt.value === 0 ? '#7fb8b7' : opt.value === 1 ? '#9dd0cf' : opt.value === 2 ? '#f0a0a8' : '#d66b7a'
   }))
 
-  const [currentPage, setCurrentPage] = useState(0)
-  const [answers, setAnswers] = useState(Array(snapItems.length).fill(null))
-  const [showHint, setShowHint] = useState(false)
+  // 恢复本地进度（包括答案、页面和语言）
+  // 注意：需要在lang初始化之后才能正确检查语言匹配
+  const getInitialPage = () => {
+    const savedProgress = window.localStorage.getItem(STORAGE_KEY_PROGRESS)
+    if (savedProgress) {
+      try {
+        const parsed = JSON.parse(savedProgress)
+        // 获取当前使用的语言（优先URL，其次保存的）
+        const currentLang = location.state?.lang || parsed.lang || 'zh'
+        // 如果保存的语言和当前语言一致，恢复页面；否则从第一页开始
+        if (parsed.lang === currentLang && typeof parsed.currentPage === 'number') {
+          return parsed.currentPage
+        }
+      } catch (e) {
+        console.warn('Failed to parse saved progress')
+      }
+    }
+    return 0
+  }
 
-  // 恢复本地进度
-  useEffect(() => {
-    const saved = window.localStorage.getItem(STORAGE_KEY)
+  const [currentPage, setCurrentPage] = useState(getInitialPage)
+
+  const [answers, setAnswers] = useState(() => {
+    const saved = window.localStorage.getItem(STORAGE_KEY_ANSWERS)
     if (saved) {
       try {
         const parsed = JSON.parse(saved)
         if (Array.isArray(parsed) && parsed.length === snapItems.length) {
-          setAnswers(parsed)
+          return parsed
         }
       } catch (e) {
         console.warn('Failed to parse saved answers')
       }
     }
-  }, [])
+    return Array(snapItems.length).fill(null)
+  })
 
+
+  const [showHint, setShowHint] = useState(false)
+
+  // 保存答案到localStorage
   useEffect(() => {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(answers))
+    window.localStorage.setItem(STORAGE_KEY_ANSWERS, JSON.stringify(answers))
   }, [answers])
+
+  // 保存进度（页面和语言）到localStorage
+  useEffect(() => {
+    window.localStorage.setItem(STORAGE_KEY_PROGRESS, JSON.stringify({
+      currentPage,
+      lang,
+      lastUpdated: Date.now()
+    }))
+  }, [currentPage, lang])
 
   const totalPages = Math.ceil(snapItems.length / QUESTIONS_PER_PAGE)
   const startIndex = currentPage * QUESTIONS_PER_PAGE
@@ -59,7 +111,9 @@ function Quiz() {
       // 滚动到顶部
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } else {
-      // 全部答完，跳转结果页
+      // 全部答完，清除保存的进度，跳转结果页
+      window.localStorage.removeItem(STORAGE_KEY_PROGRESS)
+      window.localStorage.removeItem(STORAGE_KEY_ANSWERS)
       navigate('/result', { state: { answers, lang } })
     }
   }

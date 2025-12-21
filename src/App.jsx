@@ -10,13 +10,17 @@ function App() {
   useEffect(() => {
     if (import.meta.env.DEV) {
       window.testAIConnection = async () => {
-        const apiKey = import.meta.env.VITE_QWEN_API_KEY || ''
+        const aiProvider = import.meta.env.VITE_AI_PROVIDER || 'qwen'
+        const apiKey = aiProvider === 'deepseek' 
+          ? (import.meta.env.VITE_DEEPSEEK_API_KEY || '')
+          : (import.meta.env.VITE_QWEN_API_KEY || '')
         if (!apiKey) {
-          console.error('❌ API key not found. Please set VITE_QWEN_API_KEY in .env file')
+          console.error(`❌ API key not found. Please set VITE_${aiProvider === 'deepseek' ? 'DEEPSEEK' : 'QWEN'}_API_KEY in .env file`)
           return
         }
         try {
-          console.log('🧪 Starting AI connection test...')
+          const aiProvider = import.meta.env.VITE_AI_PROVIDER || 'qwen'
+          console.log(`🧪 Starting ${aiProvider === 'deepseek' ? 'DeepSeek' : 'Qwen'} connection test...`)
           const result = await testAIConnection(apiKey)
           console.log('✅ Test successful!')
           console.log('📝 Result:', result)

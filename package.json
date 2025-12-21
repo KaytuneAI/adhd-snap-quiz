@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:select": "node scripts/start-with-model.js",
     "build": "vite build",
     "preview": "vite preview"
   },

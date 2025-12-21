@@ -23,6 +23,19 @@ export default defineConfig({
             }
           })
         }
+      },
+      '/api/deepseek': {
+        target: 'https://api.deepseek.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/deepseek/, '/v1/chat/completions'),
+        configure: (proxy, _options) => {
+          proxy.on('proxyReq', (proxyReq, req, _res) => {
+            // 保持原始请求头
+            if (req.headers.authorization) {
+              proxyReq.setHeader('Authorization', req.headers.authorization)
+            }
+          })
+        }
       }
     }
   },
