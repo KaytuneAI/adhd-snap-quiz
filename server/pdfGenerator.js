@@ -5,6 +5,7 @@ import { jsPDF } from 'jspdf'
 import { readFileSync } from 'fs'
 import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
+import sharp from 'sharp'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -310,11 +311,16 @@ export async function generatePDF({ scores, aiAnalysis, lang = 'zh', translation
   const logoBase64 = loadLogo()
   if (logoBase64) {
     try {
-      // 使用 jsPDF 的 getImageProperties 获取图片尺寸
-      // 或者使用固定宽高比（实际图片的宽高比约为 1.2）
-      const logoHeight = 50
-      const logoWidth = logoHeight * 1.2 // 根据实际 logo 图片的宽高比
+      // 使用 sharp 获取图片的实际尺寸以保持正确的宽高比
+      const logoBuffer = readFileSync(LOGO_PATH)
+      const imageMetadata = await sharp(logoBuffer).metadata()
+      const imageAspectRatio = imageMetadata.width / imageMetadata.height
+
+      // Logo尺寸（mm）- 保持原始宽高比
+      const logoHeight = 50 // 高度50mm
+      const logoWidth = logoHeight * imageAspectRatio // 根据实际图片比例计算宽度
       const logoX = (pageWidth - logoWidth) / 2
+      
       doc.addImage(logoBase64, 'JPEG', logoX, yPos, logoWidth, logoHeight)
       yPos += logoHeight + 8 * 1.3
     } catch (error) {
@@ -488,13 +494,11 @@ export async function generatePDF({ scores, aiAnalysis, lang = 'zh', translation
 
   if (parsedAI.messageToChild) {
     checkNewPage(40 * 1.3)
-    doc.setFillColor(240, 253, 252)
-    doc.rect(margin, yPos, contentWidth, 30, 'F')
-    
+    // 移除背景色，使用普通样式
     addSubtitle(lang === 'zh' ? '给孩子的话' : 'A Message for the Child', 12)
     yPos += 2 * 1.3
     
-    addText(parsedAI.messageToChild, 10, [61, 107, 105])
+    addText(parsedAI.messageToChild, 10) // 使用默认文字颜色
     yPos += 5 * 1.3
   }
 

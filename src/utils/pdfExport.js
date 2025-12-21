@@ -391,13 +391,11 @@ export async function exportToPDF({ scores, aiAnalysis, lang, domainLabel, trans
   // 给孩子的话（紧接着家庭支持建议）
   if (parsedAI.messageToChild) {
     checkNewPage(52)
-    doc.setFillColor(240, 253, 252) // #f0fdfc - 浅cyan背景
-    doc.rect(margin, yPos, contentWidth, 30, 'F')
-    
+    // 移除背景色，使用普通样式
     addSubtitle(lang === 'zh' ? '给孩子的话' : 'A Message for the Child', 12)
     yPos += 2
     
-    addText(parsedAI.messageToChild, 10, [61, 107, 105]) // #3d6b69 - 深cyan文字色
+    addText(parsedAI.messageToChild, 10) // 使用默认文字颜色
     yPos += 7
   }
 
