@@ -46,6 +46,11 @@ export default defineConfig(({ mode }) => {
               }
             })
           }
+        },
+        '/api/generate-pdf': {
+          target: 'http://localhost:3002',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api\/generate-pdf/, '/api/generate-pdf')
         }
       }
     },

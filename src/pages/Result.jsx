@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import snapItems from '../data/snap_iv_26_items.json'
 import { computeSnapScores } from '../utils/snapScoring'
 import { generateAIAnalysis, testAIConnection } from '../utils/deepseekApi'
-import { exportToPDF } from '../utils/pdfExport'
+import { generatePDFViaAPI } from '../utils/pdfApi'
 import { generateReportContent, parseAIAnalysis, parseStreamingContent } from '../utils/reportContent'
 import Logo from '../components/Logo'
 import { getTranslations } from '../utils/translations'
@@ -671,7 +671,7 @@ function Result() {
               className="btn btn-primary"
               onClick={async () => {
                 try {
-                  await exportToPDF({
+                  await generatePDFViaAPI({
                     scores,
                     aiAnalysis,
                     lang,
