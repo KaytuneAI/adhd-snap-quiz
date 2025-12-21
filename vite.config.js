@@ -2,8 +2,18 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [react()],
+export default defineConfig(({ mode }) => {
+  // 根据环境变量决定 base 路径
+  // 开发环境：不需要 base 路径
+  // 生产环境：使用 /adhd/ 作为 base 路径（Nginx 部署）
+  const isProduction = mode === 'production'
+  const base = isProduction ? '/adhd/' : '/'
+
+  return {
+    base: base,
+
+    plugins: [react()],
+
   server: {
     host: '0.0.0.0', // 监听所有网络接口，允许局域网访问
     port: 5173,
@@ -39,6 +49,7 @@ export default defineConfig({
       }
     }
   },
+
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
@@ -51,6 +62,6 @@ export default defineConfig({
         },
       },
     },
-  },
+  }
 })
 
