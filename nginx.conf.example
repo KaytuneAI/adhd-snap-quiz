@@ -1,12 +1,12 @@
-# Nginx 配置示例
+# Nginx 配置示例 - 部署在 /adhd/ 子路径
 # 将以下配置添加到你的 Nginx 站点配置文件中（通常在 /etc/nginx/sites-available/）
 
 server {
     listen 80;
-    server_name your-domain.com;  # 替换为你的域名或 IP
+    server_name liquora.cn;  # 替换为你的域名
     
-    # 网站根目录（将 dist/ 目录内容复制到这里）
-    root /var/www/adhd-snap;  # 替换为你的实际路径
+    # 网站根目录
+    root /var/www/liquora.cn;
     index index.html;
     
     # 启用 gzip 压缩
@@ -15,15 +15,25 @@ server {
     gzip_min_length 1024;
     gzip_types text/plain text/css text/xml text/javascript application/x-javascript application/xml+rss application/json application/javascript;
     
-    # 静态资源缓存
-    location ~* \.(jpg|jpeg|png|gif|ico|css|js|svg|woff|woff2|ttf|eot)$ {
-        expires 1y;
-        add_header Cache-Control "public, immutable";
+    # /adhd/ 路径配置
+    location /adhd/ {
+        alias /var/www/liquora.cn/adhd/;  # 指向 dist 目录的内容
+        try_files $uri $uri/ /adhd/index.html;
+        
+        # 静态资源缓存
+        location ~* \.(jpg|jpeg|png|gif|ico|css|js|svg|woff|woff2|ttf|eot)$ {
+            expires 1y;
+            add_header Cache-Control "public, immutable";
+        }
     }
     
-    # React Router 支持 - 所有路由都返回 index.html
-    location / {
-        try_files $uri $uri/ /index.html;
+    # API 代理（如果需要）
+    location /adhd/api/ {
+        proxy_pass https://dashscope.aliyuncs.com/;
+        proxy_set_header Host dashscope.aliyuncs.com;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
     
     # 安全头

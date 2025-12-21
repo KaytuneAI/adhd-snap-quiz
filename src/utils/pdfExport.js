@@ -1,9 +1,12 @@
 // src/utils/pdfExport.js
 import { jsPDF } from 'jspdf'
 import { generateReportContent, parseAIAnalysis } from './reportContent'
-import fontRegularBase64 from '../assets/fonts/NotoSansSC-Regular.base64.js'
-import fontBoldBase64 from '../assets/fonts/NotoSansSC-Bold.base64.js'
 import logoImageUrl from '../assets/logos/jx_adhd_logo.jpg'
+
+// 字体文件使用动态导入，只在需要生成PDF时加载（减少初始加载时间）
+let fontRegularBase64 = null
+let fontBoldBase64 = null
+let fontsLoaded = false
 
 /**
  * 导出结果为PDF - 按照7个模块结构生成专业报告
@@ -15,6 +18,22 @@ import logoImageUrl from '../assets/logos/jx_adhd_logo.jpg'
  * @param {Object} options.translations - 翻译对象
  */
 export async function exportToPDF({ scores, aiAnalysis, lang, domainLabel, translations }) {
+  // 动态加载字体文件（只在需要时加载，减少初始bundle大小）
+  if (!fontsLoaded) {
+    try {
+      const [regularModule, boldModule] = await Promise.all([
+        import('../assets/fonts/NotoSansSC-Regular.base64.js'),
+        import('../assets/fonts/NotoSansSC-Bold.base64.js')
+      ])
+      fontRegularBase64 = regularModule.default
+      fontBoldBase64 = boldModule.default
+      fontsLoaded = true
+    } catch (error) {
+      console.error('Failed to load fonts:', error)
+      throw new Error('无法加载字体文件，PDF导出失败')
+    }
+  }
+
   // 创建PDF文档 (A4尺寸: 210mm x 297mm)
   const doc = new jsPDF({
     orientation: 'portrait',
