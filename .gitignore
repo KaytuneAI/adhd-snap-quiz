@@ -33,3 +33,13 @@ dist-ssr
 src/fonts/Noto_Sans_SC.zip
 *.zip
 
+# 不需要的字体文件（只保留 Regular 和 Bold）
+src/fonts/NotoSansSC-VariableFont_wght.ttf
+src/fonts/static/NotoSansSC-Black.ttf
+src/fonts/static/NotoSansSC-ExtraBold.ttf
+src/fonts/static/NotoSansSC-ExtraLight.ttf
+src/fonts/static/NotoSansSC-Light.ttf
+src/fonts/static/NotoSansSC-Medium.ttf
+src/fonts/static/NotoSansSC-SemiBold.ttf
+src/fonts/static/NotoSansSC-Thin.ttf
+
