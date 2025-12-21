@@ -338,3 +338,89 @@ Use warm, professional, non-labeling language.`
   }
 }
 
+/**
+ * 简单的AI测试函数 - 用于验证API是否正常工作
+ * @param {string} apiKey - API密钥
+ * @returns {Promise<string>} AI返回的内容
+ */
+export async function testAIConnection(apiKey) {
+  if (!apiKey) {
+    throw new Error('API key is required')
+  }
+
+  const testPrompt = '用300个字解释ADHD的SNAP-IV的方法论原理'
+
+  const requestBody = {
+    model: 'qwen-turbo',
+    messages: [
+      {
+        role: 'user',
+        content: testPrompt
+      }
+    ],
+    temperature: 0.7,
+    max_tokens: 500
+  }
+
+  const startTime = Date.now()
+  console.group('🧪 AI Connection Test')
+  console.log('📝 Test prompt:', testPrompt)
+  console.log('⏰ Request started at:', new Date().toLocaleTimeString())
+
+  try {
+    const apiUrl = import.meta.env.DEV 
+      ? '/api/qwen'  // 开发环境使用代理
+      : 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions'
+
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify(requestBody)
+    })
+
+    const responseTime = Date.now()
+    const requestDuration = responseTime - startTime
+    console.log('📡 Response status:', response.status, response.statusText)
+    console.log('⏱️ Request duration:', requestDuration, 'ms', `(${(requestDuration / 1000).toFixed(2)}s)`)
+
+    if (!response.ok) {
+      const errorText = await response.text()
+      console.error('❌ API Error:', errorText)
+      throw new Error(`API request failed: ${response.status} ${response.statusText}`)
+    }
+
+    const data = await response.json()
+    const totalDuration = Date.now() - startTime
+
+    console.log('✅ Response received')
+    console.log('💡 Full response:', data)
+
+    // 兼容 OpenAI 格式：data.choices[0].message.content
+    let content = data.choices?.[0]?.message?.content || ''
+    
+    // 如果 choices 为空，尝试其他可能的格式
+    if (!content && data.output) {
+      content = data.output.choices?.[0]?.message?.content || ''
+    }
+
+    console.log('📝 Content length:', content.length, 'characters')
+    console.log('📝 Content preview:', content.substring(0, 200))
+    console.log('⏱️ Total duration:', totalDuration, 'ms', `(${(totalDuration / 1000).toFixed(2)}s)`)
+    console.groupEnd()
+
+    if (!content) {
+      console.warn('⚠️ Empty content in response. Full data:', data)
+      throw new Error('Empty content in API response')
+    }
+
+    return content
+  } catch (error) {
+    console.error('❌ Test failed:', error)
+    console.groupEnd()
+    throw error
+  }
+}
+

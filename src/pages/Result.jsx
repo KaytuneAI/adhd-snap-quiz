@@ -2,7 +2,8 @@ import { useState, useEffect, useMemo, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import snapItems from '../data/snap_iv_26_items.json'
 import { computeSnapScores } from '../utils/snapScoring'
-import { generateAIAnalysis } from '../utils/deepseekApi'
+import { generateAIAnalysis, testAIConnection } from '../utils/deepseekApi'
+import { exportToPDF } from '../utils/pdfExport'
 import Logo from '../components/Logo'
 import { getTranslations } from '../utils/translations'
 
@@ -17,8 +18,14 @@ function Result() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
   
+  // 调试：监听状态变化
+  useEffect(() => {
+    if (import.meta.env.DEV) {
+      console.log('🔍 State changed - isLoading:', isLoading, 'aiAnalysis length:', aiAnalysis?.length || 0, 'error:', error)
+    }
+  }, [isLoading, aiAnalysis, error])
+  
   // 使用 ref 来防止重复请求
-  const hasRequestedRef = useRef(false)
   const answersKeyRef = useRef(null)
   
   // localStorage key
@@ -71,7 +78,7 @@ function Result() {
       setAiAnalysis(savedAnalysis)
       setIsLoading(false)
       setError(null)
-      answersKeyRef.current = answersKey
+      answersKeyRef.current = answersKey // 缓存命中时标记为已处理
       return
     }
 
@@ -80,10 +87,9 @@ function Result() {
       return
     }
 
-    // 标记已经请求过这个 answersKey
-    answersKeyRef.current = answersKey
-    hasRequestedRef.current = true
-    let isMounted = true // 防止组件卸载后更新状态
+    // ✅ 关键修改：不在请求开始时就标记，而是在成功写入 state 后才标记
+    // 使用局部 cancelled flag 代替全局 requestId
+    let cancelled = false
 
     const fetchAIAnalysis = async () => {
       const requestStartTime = Date.now()
@@ -104,6 +110,14 @@ function Result() {
 
         const analysis = await generateAIAnalysis(snapItems, answers, scores, lang, apiKey)
         
+        // ✅ 关键：在请求返回后立即检查是否已取消
+        if (cancelled) {
+          if (import.meta.env.DEV) {
+            console.log('⚠️ Request cancelled, skipping state update')
+          }
+          return
+        }
+        
         const requestDuration = Date.now() - requestStartTime
         if (import.meta.env.DEV) {
           console.log(`✅ AI analysis completed in ${requestDuration}ms (${(requestDuration / 1000).toFixed(2)}s)`)
@@ -111,51 +125,68 @@ function Result() {
           console.log('📝 Analysis preview:', analysis?.substring(0, 100) || 'empty')
         }
         
-        // 只有在组件仍然挂载时才更新状态
-        if (isMounted) {
+        // ✅ 先设置内容，确保内容先更新
+        if (analysis && analysis.length > 0) {
+          setAiAnalysis(analysis)
           if (import.meta.env.DEV) {
-            console.log('🔄 Updating state - isMounted:', isMounted, 'analysis length:', analysis?.length || 0)
-          }
-          // 同时更新两个状态，React 18 会自动批处理
-          setAiAnalysis(analysis || '')
-          setIsLoading(false)
-          if (import.meta.env.DEV) {
-            console.log('🛑 Loading state set to false, aiAnalysis set to:', (analysis || '').substring(0, 50))
-          }
-          // 保存到 localStorage
-          if (analysis) {
-            try {
-              window.localStorage.setItem(storageKey, analysis)
-            } catch (storageError) {
-              console.warn('Failed to save AI analysis to localStorage:', storageError)
-            }
+            console.log('✅ aiAnalysis set, length:', analysis.length)
           }
         } else {
+          setAiAnalysis('')
           if (import.meta.env.DEV) {
-            console.warn('⚠️ Component unmounted, skipping state update')
+            console.warn('⚠️ Empty analysis received')
+          }
+        }
+        
+        // 然后停止加载
+        setIsLoading(false)
+        if (import.meta.env.DEV) {
+          console.log('🛑 isLoading set to false')
+        }
+        
+        // ✅ 关键：只有在成功写入 state 后才标记为已处理
+        answersKeyRef.current = answersKey
+        
+        // 保存到 localStorage
+        if (analysis) {
+          try {
+            window.localStorage.setItem(storageKey, analysis)
+            if (import.meta.env.DEV) {
+              console.log('💾 Saved to localStorage')
+            }
+          } catch (storageError) {
+            console.warn('Failed to save AI analysis to localStorage:', storageError)
           }
         }
       } catch (err) {
+        // ✅ 检查是否已取消
+        if (cancelled) {
+          if (import.meta.env.DEV) {
+            console.log('⚠️ Request cancelled during error handling')
+          }
+          return
+        }
+        
         const requestDuration = Date.now() - requestStartTime
         console.error('❌ Failed to generate AI analysis:', err)
         if (import.meta.env.DEV) {
           console.log(`⏱️ Request failed after ${requestDuration}ms (${(requestDuration / 1000).toFixed(2)}s)`)
         }
-        // 只有在组件仍然挂载时才更新状态
-        if (isMounted) {
-          setError(err.message)
-          // 如果API调用失败，使用默认的静态描述
-          setAiAnalysis('')
-          setIsLoading(false) // 确保停止加载动画
-        }
+        setError(err.message)
+        // 如果API调用失败，使用默认的静态描述
+        setAiAnalysis('')
+        setIsLoading(false) // 确保停止加载动画
       }
     }
 
     fetchAIAnalysis()
 
-    // 清理函数：组件卸载时设置标志
+    // ✅ 清理函数：只设置局部 cancelled flag
     return () => {
-      isMounted = false
+      cancelled = true
+      if (import.meta.env.DEV) {
+        console.log('🧹 Cleanup: Request cancelled')
+      }
     }
   }, [answersKey, answers, scores, lang])
 
@@ -329,13 +360,42 @@ function Result() {
           {t.result.disclaimer}
         </p>
 
-        <button
-          className="btn btn-secondary"
-          style={{ marginTop: 16 }}
-          onClick={() => navigate('/')}
-        >
-          {t.result.backButton}
-        </button>
+        <div style={{ 
+          display: 'flex', 
+          gap: 12, 
+          marginTop: 16,
+          flexDirection: 'column'
+        }}>
+          {!isLoading && aiAnalysis && (
+            <button
+              className="btn btn-primary"
+              onClick={async () => {
+                try {
+                  await exportToPDF({
+                    scores,
+                    aiAnalysis,
+                    lang,
+                    domainLabel,
+                    translations: t
+                  })
+                } catch (error) {
+                  console.error('Failed to export PDF:', error)
+                  alert(lang === 'zh' 
+                    ? '导出PDF失败，请检查控制台错误信息' 
+                    : 'Failed to export PDF, please check console for errors')
+                }
+              }}
+            >
+              {lang === 'zh' ? '保存为 PDF' : 'Save as PDF'}
+            </button>
+          )}
+          <button
+            className="btn btn-secondary"
+            onClick={() => navigate('/')}
+          >
+            {t.result.backButton}
+          </button>
+        </div>
       </div>
     </div>
   )
