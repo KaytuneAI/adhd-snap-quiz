@@ -17,8 +17,21 @@ if "%choice%"=="2" (
 )
 
 echo.
+echo 📄 检查 PDF 服务器状态...
+netstat -ano | findstr :3002 >nul
+if %errorlevel% == 0 (
+    echo ✅ PDF 服务器已在运行 (端口 3002)
+) else (
+    echo 🚀 启动 PDF 服务器...
+    start "PDF Generator Server" cmd /k "npm run server"
+    timeout /t 2 >nul
+    echo ✅ PDF 服务器已启动
+)
+
+echo.
 echo 🚀 启动开发服务器...
 echo.
 
 npm run dev
+
 
