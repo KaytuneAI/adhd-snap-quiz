@@ -21,3 +21,4 @@ echo.
 echo To stop the server, run: stop-pdf-server.bat
 timeout /t 3 >nul
 
+
