@@ -35,6 +35,13 @@ export async function generatePDFViaAPI({ scores, aiAnalysis, lang, domainLabel,
   try {
     // 显示加载提示
     console.log('📄 正在生成 PDF...')
+    
+    // 显示用户提示（根据语言）
+    const isZh = lang === 'zh'
+    const generatingMsg = isZh ? '正在生成 PDF，请稍候...' : 'Generating PDF, please wait...'
+    
+    // 显示生成中的提示（可选，如果不想显示可以注释掉）
+    // alert(generatingMsg)
 
     // 发送请求
     const response = await fetch(API_URL, {
@@ -76,6 +83,13 @@ export async function generatePDFViaAPI({ scores, aiAnalysis, lang, domainLabel,
     }, 100)
 
     console.log('✅ PDF 生成成功')
+    
+    // 显示下载完成提示
+    const successMsg = isZh 
+      ? `PDF 下载完成！\n\n文件名：${filename}\n\n文件已保存到您的下载文件夹。`
+      : `PDF download completed!\n\nFilename: ${filename}\n\nThe file has been saved to your downloads folder.`
+    
+    alert(successMsg)
   } catch (error) {
     console.error('❌ PDF 生成失败:', error)
     throw error
