@@ -1,11 +1,31 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Intro from './pages/Intro.jsx'
 import Quiz from './pages/Quiz.jsx'
 import Result from './pages/Result.jsx'
 import { testAIConnection } from './utils/deepseekApi'
+import WeChatBrowserWarning from './components/WeChatBrowserWarning'
+
+/**
+ * 检测是否为微信浏览器
+ */
+function isWeChatBrowser() {
+  const ua = navigator.userAgent.toLowerCase()
+  return /micromessenger/i.test(ua)
+}
 
 function App() {
+  const [isWeChat, setIsWeChat] = useState(false)
+
+  // 检测微信浏览器
+  useEffect(() => {
+    if (isWeChatBrowser()) {
+      setIsWeChat(true)
+      // 阻止页面滚动
+      document.body.style.overflow = 'hidden'
+    }
+  }, [])
+
   // 测试AI连接 - 在开发环境下暴露到window对象，方便在控制台调用
   useEffect(() => {
     if (import.meta.env.DEV) {
@@ -36,8 +56,18 @@ function App() {
     }
   }, [])
 
+  // 如果是微信浏览器，只显示警告，不显示问卷内容
+  if (isWeChat) {
+    return (
+      <div className="app-shell">
+        <WeChatBrowserWarning />
+      </div>
+    )
+  }
+
   return (
     <div className="app-shell">
+      <WeChatBrowserWarning />
       <Routes>
         <Route path="/" element={<Intro />} />
         <Route path="/quiz" element={<Quiz />} />
