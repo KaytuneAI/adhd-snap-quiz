@@ -19,12 +19,12 @@ server {
     location /adhd/ {
         alias /var/www/liquora.cn/adhd/;  # 指向 dist 目录的内容
         try_files $uri $uri/ /adhd/index.html;
-        
-        # 静态资源缓存
-        location ~* \.(jpg|jpeg|png|gif|ico|css|js|svg|woff|woff2|ttf|eot)$ {
-            expires 1y;
-            add_header Cache-Control "public, immutable";
-        }
+    
+    # 静态资源缓存
+    location ~* \.(jpg|jpeg|png|gif|ico|css|js|svg|woff|woff2|ttf|eot)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
     }
     
     # API 代理（如果需要）

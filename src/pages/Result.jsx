@@ -300,7 +300,7 @@ function Result() {
       <div className="card result-card" style={{ maxWidth: '800px', margin: '0 auto' }}>
         {/* 🟦 封面 */}
         <div style={{ textAlign: 'center', marginBottom: 16, paddingBottom: 12 }}>
-          <Logo size={70} showText={true} showAdhd={false} />
+        <Logo size={70} showText={true} showAdhd={false} />
           <h1 style={{ fontSize: 20, fontWeight: 600, marginTop: 16, marginBottom: 8, color: '#1f2937' }}>
             {reportContent.cover.title}
           </h1>
@@ -363,47 +363,47 @@ function Result() {
               {Object.entries(scores).map(([domain, detail], idx) => {
                 const dim = reportContent.overview.dimensions.find(d => d.name === domainLabel(domain)) || reportContent.overview.dimensions[idx]
                 return (
-                  <div
-                    key={domain}
-                    style={{
+          <div
+            key={domain}
+            style={{
                       marginBottom: 16,
                       padding: '12px',
                       borderRadius: 8,
-                      background: '#f9fafb',
-                    }}
-                  >
-                    <div style={{ 
-                      display: 'flex', 
-                      justifyContent: 'space-between', 
-                      alignItems: 'center',
-                      marginBottom: 8 
-                    }}>
+              background: '#f9fafb',
+            }}
+          >
+              <div style={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center',
+                marginBottom: 8 
+              }}>
                       <div style={{ fontWeight: 600, fontSize: 14, color: '#1f2937' }}>{domainLabel(domain)}</div>
-                      <div style={{ fontSize: 13, color: '#6b7280', fontWeight: 500 }}>
+                <div style={{ fontSize: 13, color: '#6b7280', fontWeight: 500 }}>
                         {t.result.averageScore} {detail.average} - {detail.label}
-                      </div>
-                    </div>
+                </div>
+              </div>
                     {/* 评分滑动条 */}
-                    <div className="score-slider-container">
-                      <div className="score-slider-track">
-                        <div className="score-segment score-segment-normal" style={{ width: '25%' }}></div>
-                        <div className="score-segment score-segment-mild" style={{ width: '25%', left: '25%' }}></div>
-                        <div className="score-segment score-segment-moderate" style={{ width: '25%', left: '50%' }}></div>
-                        <div className="score-segment score-segment-strong" style={{ width: '25%', left: '75%' }}></div>
-                        <div 
-                          className="score-slider-indicator"
-                          style={{
+              <div className="score-slider-container">
+                <div className="score-slider-track">
+                  <div className="score-segment score-segment-normal" style={{ width: '25%' }}></div>
+                  <div className="score-segment score-segment-mild" style={{ width: '25%', left: '25%' }}></div>
+                  <div className="score-segment score-segment-moderate" style={{ width: '25%', left: '50%' }}></div>
+                  <div className="score-segment score-segment-strong" style={{ width: '25%', left: '75%' }}></div>
+                  <div 
+                    className="score-slider-indicator"
+                    style={{
                             left: `${Math.min((detail.average / 3) * 100, 100)}%`
-                          }}
-                        />
-                      </div>
-                      <div className="score-slider-labels">
-                        <span>0</span>
-                        <span>1</span>
-                        <span>2</span>
-                        <span>3</span>
-                      </div>
-                    </div>
+                    }}
+                  />
+                </div>
+                <div className="score-slider-labels">
+                  <span>0</span>
+                  <span>1</span>
+                  <span>2</span>
+                  <span>3</span>
+                </div>
+              </div>
                     <p style={{ fontSize: 12, color: '#6b7280', marginTop: 8, marginBottom: 0 }}>
                       {detail.desc}
                     </p>
@@ -414,15 +414,15 @@ function Result() {
           )}
 
           {/* AI 综合理解 */}
-          <div
-            style={{
+        <div
+          style={{
               marginTop: 16,
               padding: '20px',
-              borderRadius: 12,
-              background: '#f9fafb',
-              border: '1px solid #e5e7eb',
-            }}
-          >
+            borderRadius: 12,
+            background: '#f9fafb',
+            border: '1px solid #e5e7eb',
+          }}
+        >
             <h3 style={{ 
               fontSize: 16, 
               fontWeight: 600, 
@@ -432,54 +432,54 @@ function Result() {
               paddingBottom: 8
             }}>
               {reportContent.aiAnalysis.title}
-            </h3>
+          </h3>
             <p style={{ fontSize: 12, color: '#6b7280', marginBottom: 16, fontStyle: 'italic' }}>
               {reportContent.aiAnalysis.note}
             </p>
-            
-            {isLoading && !aiAnalysis && (
-              <div style={{ 
-                padding: '30px 20px', 
-                textAlign: 'center', 
-                color: '#6b7280',
-                fontSize: 14 
-              }}>
-                <div className="ai-loading-animation">
-                  <div className="magic-circle">
-                    <div className="magic-ring magic-ring-1"></div>
-                    <div className="magic-ring magic-ring-2"></div>
-                    <div className="magic-ring magic-ring-3"></div>
-                    <div className="magic-core"></div>
-                    <div className="magic-particles">
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                    </div>
-                  </div>
-                  <div className="magic-text" style={{ marginTop: 24 }}>
-                    {lang === 'zh' ? '正在生成AI分析...' : 'Generating AI analysis...'}
+          
+          {isLoading && !aiAnalysis && (
+            <div style={{ 
+              padding: '30px 20px', 
+              textAlign: 'center', 
+              color: '#6b7280',
+              fontSize: 14 
+            }}>
+              <div className="ai-loading-animation">
+                <div className="magic-circle">
+                  <div className="magic-ring magic-ring-1"></div>
+                  <div className="magic-ring magic-ring-2"></div>
+                  <div className="magic-ring magic-ring-3"></div>
+                  <div className="magic-core"></div>
+                  <div className="magic-particles">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
                   </div>
                 </div>
+                <div className="magic-text" style={{ marginTop: 24 }}>
+                  {lang === 'zh' ? '正在生成AI分析...' : 'Generating AI analysis...'}
+                </div>
               </div>
-            )}
+            </div>
+          )}
 
-            {error && !isLoading && (
-              <div style={{ 
-                padding: '12px', 
-                background: '#fef3c7', 
-                borderRadius: 8,
-                color: '#92400e',
-                fontSize: 13,
-                marginBottom: 12
-              }}>
-                {lang === 'zh' 
-                  ? 'AI分析暂时不可用，请稍后重试。' 
-                  : 'AI analysis is temporarily unavailable, please try again later.'}
-              </div>
-            )}
+          {error && !isLoading && (
+            <div style={{ 
+              padding: '12px', 
+              background: '#fef3c7', 
+              borderRadius: 8,
+              color: '#92400e',
+              fontSize: 13,
+              marginBottom: 12
+            }}>
+              {lang === 'zh' 
+                ? 'AI分析暂时不可用，请稍后重试。' 
+                : 'AI analysis is temporarily unavailable, please try again later.'}
+            </div>
+          )}
 
             {/* 显示"整体理解"部分（流式输出时实时更新） */}
             {(isLoading || !isLoading) && !error && parsedAI.overall && (
@@ -498,29 +498,29 @@ function Result() {
             
             {/* 如果没有解析出区块，但有原始内容，显示原始内容（兼容旧格式） */}
             {!isLoading && !error && !parsedAI.overall && aiAnalysis && (
-              <div 
-                className="ai-analysis-content"
-                style={{ 
-                  fontSize: 14, 
-                  color: '#4b5563', 
+            <div 
+              className="ai-analysis-content"
+              style={{ 
+                fontSize: 14, 
+                color: '#4b5563', 
                   lineHeight: 1.7,
                   whiteSpace: 'pre-wrap'
-                }}
-              >
-                {aiAnalysis}
-              </div>
-            )}
+              }}
+            >
+              {aiAnalysis}
+            </div>
+          )}
 
-            {!isLoading && !error && !aiAnalysis && (
-              <div style={{ fontSize: 13, color: '#6b7280' }}>
-                {Object.entries(scores).map(([domain, detail]) => (
-                  <div key={domain} style={{ marginBottom: 8 }}>
-                    <strong>{domainLabel(domain)}</strong>: {detail.desc}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          {!isLoading && !error && !aiAnalysis && (
+            <div style={{ fontSize: 13, color: '#6b7280' }}>
+              {Object.entries(scores).map(([domain, detail]) => (
+                <div key={domain} style={{ marginBottom: 8 }}>
+                  <strong>{domainLabel(domain)}</strong>: {detail.desc}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
         </div>
 
         {/* 🟦 03 SNAP-IV分维度理解 */}

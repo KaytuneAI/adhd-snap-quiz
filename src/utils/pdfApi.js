@@ -27,10 +27,10 @@ export async function generatePDFViaAPI({ scores, aiAnalysis, lang, domainLabel,
     domainLabels
   }
 
-  // 确定 API URL（开发环境使用代理，生产环境使用完整 URL）
+  // 确定 API URL（开发环境使用代理，生产环境通过 Nginx 代理）
   const API_URL = import.meta.env.DEV
     ? '/api/generate-pdf'  // 开发环境：通过 Vite 代理
-    : (import.meta.env.VITE_PDF_API_URL || 'http://localhost:3002/api/generate-pdf')  // 生产环境
+    : (import.meta.env.VITE_PDF_API_URL || '/api/generate-pdf')  // 生产环境：通过 Nginx 代理到 localhost:3002
 
   try {
     // 显示加载提示
