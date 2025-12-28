@@ -3,10 +3,10 @@
 
 server {
     listen 80;
-    server_name liquora.cn;  # 替换为你的域名
+    server_name www.adhdsupport.cn;  # 域名
     
     # 网站根目录
-    root /var/www/liquora.cn;
+    root /var/www/adhdsupport.cn;
     index index.html;
     
     # 启用 gzip 压缩
@@ -17,7 +17,7 @@ server {
     
     # /adhd/ 路径配置
     location /adhd/ {
-        alias /var/www/liquora.cn/adhd/;  # 指向 dist 目录的内容
+        alias /var/www/adhdsupport.cn/adhd/;  # 指向 dist 目录的内容
         try_files $uri $uri/ /adhd/index.html;
     
     # 静态资源缓存

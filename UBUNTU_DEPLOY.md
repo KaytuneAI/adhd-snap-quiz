@@ -121,37 +121,37 @@ ls -la dist/
 
 ```bash
 # 创建部署目录
-sudo mkdir -p /var/www/liquora.cn/adhd
+sudo mkdir -p /var/www/adhdsupport.cn/adhd
 
 # 复制构建文件到部署目录
-sudo cp -r /var/www/adhd-snap-quiz/dist/* /var/www/liquora.cn/adhd/
+sudo cp -r /var/www/adhd-snap-quiz/dist/* /var/www/adhdsupport.cn/adhd/
 
 # 设置权限
-sudo chown -R www-data:www-data /var/www/liquora.cn/adhd
-sudo chmod -R 755 /var/www/liquora.cn/adhd
+sudo chown -R www-data:www-data /var/www/adhdsupport.cn/adhd
+sudo chmod -R 755 /var/www/adhdsupport.cn/adhd
 ```
 
-**注意：** 将 `/var/www/liquora.cn` 替换为你的实际网站根目录。
+**注意：** 将 `/var/www/adhdsupport.cn` 替换为你的实际网站根目录（如果需要）。
 
 ## ⚙️ 第八步：配置 Nginx
 
 ### 8.1 创建或编辑 Nginx 配置文件
 
 ```bash
-sudo nano /etc/nginx/sites-available/liquora.cn
+sudo nano /etc/nginx/sites-available/www.adhdsupport.cn
 ```
 
-**注意：** 将 `liquora.cn` 替换为你的域名或站点名称。
+**注意：** 将 `www.adhdsupport.cn` 替换为你的域名或站点名称（如果需要）。
 
 ### 8.2 添加以下配置
 
 ```nginx
 server {
     listen 80;
-    server_name liquora.cn;  # 替换为你的域名或 IP
+    server_name www.adhdsupport.cn;  # 域名
     
     # 网站根目录
-    root /var/www/liquora.cn;
+    root /var/www/adhdsupport.cn;
     index index.html;
     
     # 启用 gzip 压缩
@@ -203,7 +203,7 @@ server {
     
     # /adhd/ 路径配置（React Router 应用）
     location /adhd/ {
-        alias /var/www/liquora.cn/adhd/;
+        alias /var/www/adhdsupport.cn/adhd/;
         try_files $uri $uri/ /adhd/index.html;
         
         # 静态资源缓存
@@ -224,7 +224,7 @@ server {
 
 ```bash
 # 创建软链接（如果还没有）
-sudo ln -s /etc/nginx/sites-available/liquora.cn /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/www.adhdsupport.cn /etc/nginx/sites-enabled/
 
 # 测试配置
 sudo nginx -t
@@ -323,8 +323,8 @@ sudo systemctl status nginx
 # 安装 Certbot
 sudo apt install -y certbot python3-certbot-nginx
 
-# 获取 SSL 证书（替换为你的域名）
-sudo certbot --nginx -d liquora.cn
+# 获取 SSL 证书
+sudo certbot --nginx -d www.adhdsupport.cn
 
 # 按照提示完成配置
 # Certbot 会自动修改 Nginx 配置并设置自动续期
@@ -350,7 +350,7 @@ npm install
 npm run build
 
 # 5. 复制新文件到部署目录
-sudo cp -r dist/* /var/www/liquora.cn/adhd/
+sudo cp -r dist/* /var/www/adhdsupport.cn/adhd/
 
 # 6. 重启 PDF 服务器（如果有代码更新）
 pm2 restart pdf-generator
@@ -390,11 +390,11 @@ try_files $uri $uri/ /adhd/index.html;
 **解决：**
 ```bash
 # 检查文件是否存在
-ls -la /var/www/liquora.cn/adhd/
+ls -la /var/www/adhdsupport.cn/adhd/
 
 # 检查权限
-sudo chown -R www-data:www-data /var/www/liquora.cn/adhd
-sudo chmod -R 755 /var/www/liquora.cn/adhd
+sudo chown -R www-data:www-data /var/www/adhdsupport.cn/adhd
+sudo chmod -R 755 /var/www/adhdsupport.cn/adhd
 ```
 
 ### 问题 4：PDF 生成超时

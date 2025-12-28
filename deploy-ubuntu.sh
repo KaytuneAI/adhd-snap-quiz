@@ -22,9 +22,9 @@ fi
 
 # 配置变量（根据实际情况修改）
 PROJECT_DIR="/var/www/adhd-snap-quiz"
-DEPLOY_DIR="/var/www/liquora.cn/adhd"
-DOMAIN="liquora.cn"  # 替换为你的域名
-NGINX_SITE="liquora.cn"  # Nginx 站点名称
+DEPLOY_DIR="/var/www/adhdsupport.cn/adhd"
+DOMAIN="www.adhdsupport.cn"  # 域名
+NGINX_SITE="www.adhdsupport.cn"  # Nginx 站点名称
 
 echo "📋 配置信息："
 echo "  项目目录: $PROJECT_DIR"
@@ -158,7 +158,7 @@ server {
     listen 80;
     server_name DOMAIN_PLACEHOLDER;
     
-    root /var/www/liquora.cn;
+    root /var/www/adhdsupport.cn;
     index index.html;
     
     # 启用 gzip 压缩
@@ -202,7 +202,7 @@ server {
     
     # /adhd/ 路径配置
     location /adhd/ {
-        alias /var/www/liquora.cn/adhd/;
+        alias /var/www/adhdsupport.cn/adhd/;
         try_files $uri $uri/ /adhd/index.html;
         
         location ~* \.(jpg|jpeg|png|gif|ico|css|js|svg|woff|woff2|ttf|eot)$ {

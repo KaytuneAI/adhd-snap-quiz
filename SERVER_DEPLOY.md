@@ -69,8 +69,8 @@ curl http://localhost:3002/api/health
 ### 5. 验证 Nginx 代理
 
 ```bash
-# 从外部访问（替换为你的域名）
-curl https://liquora.cn/api/generate-pdf
+# 从外部访问
+curl https://www.adhdsupport.cn/api/generate-pdf
 
 # 如果配置正确，应该能访问到 PDF 服务器
 ```
@@ -82,7 +82,7 @@ curl https://liquora.cn/api/generate-pdf
 ```nginx
 server {
     listen 80;
-    server_name liquora.cn;  # 替换为你的域名
+    server_name www.adhdsupport.cn;  # 域名
     
     # PDF 生成 API（放在前面，优先匹配）
     location /api/generate-pdf {
@@ -215,7 +215,7 @@ app.use(cors())
    ```
 
 4. **访问前端应用**
-   - 打开 `https://liquora.cn/adhd/`
+   - 打开 `https://www.adhdsupport.cn/adhd/`
    - 完成测评
    - 点击"保存为 PDF"按钮
    - 应该能成功下载 PDF
@@ -229,6 +229,8 @@ app.use(cors())
 3. ✅ 重新加载 Nginx
 
 就这么简单！🎉
+
+
 
 
 

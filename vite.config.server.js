@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 // https://vitejs.dev/config/
 // 服务器端配置：固定使用 /adhd/ 作为 base 路径（生产环境）
 export default defineConfig({
-  base: '/adhd/',   // 部署在 https://liquora.cn/adhd
+  base: '/adhd/',   // 部署在 https://www.adhdsupport.cn/adhd
 
   plugins: [react()],
 
@@ -63,4 +63,6 @@ export default defineConfig({
     },
   },
 })
+
+
 

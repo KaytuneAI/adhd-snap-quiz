@@ -45,15 +45,15 @@ PORT=3002
 npm run build
 
 # 部署
-sudo mkdir -p /var/www/liquora.cn/adhd
-sudo cp -r dist/* /var/www/liquora.cn/adhd/
-sudo chown -R www-data:www-data /var/www/liquora.cn/adhd
+sudo mkdir -p /var/www/adhdsupport.cn/adhd
+sudo cp -r dist/* /var/www/adhdsupport.cn/adhd/
+sudo chown -R www-data:www-data /var/www/adhdsupport.cn/adhd
 ```
 
 ### 4. 配置 Nginx
 
 ```bash
-sudo nano /etc/nginx/sites-available/liquora.cn
+sudo nano /etc/nginx/sites-available/www.adhdsupport.cn
 ```
 
 参考 `nginx.conf.example` 或 `UBUNTU_DEPLOY.md` 中的完整配置。
@@ -92,7 +92,7 @@ cd /var/www/adhd-snap-quiz
 git pull
 npm install  # 如果有新依赖
 npm run build
-sudo cp -r dist/* /var/www/liquora.cn/adhd/
+sudo cp -r dist/* /var/www/adhdsupport.cn/adhd/
 pm2 restart pdf-generator
 ```
 
