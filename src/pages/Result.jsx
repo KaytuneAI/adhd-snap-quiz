@@ -225,7 +225,9 @@ function Result() {
               console.log('💾 Saved to localStorage')
             }
           } catch (storageError) {
-            console.warn('Failed to save AI analysis to localStorage:', storageError)
+            if (import.meta.env.DEV) {
+              console.warn('Failed to save AI analysis to localStorage:', storageError)
+            }
           }
         }
       } catch (err) {
@@ -238,8 +240,8 @@ function Result() {
         }
         
         const requestDuration = Date.now() - requestStartTime
-        console.error('❌ Failed to generate AI analysis:', err)
         if (import.meta.env.DEV) {
+          console.error('❌ Failed to generate AI analysis:', err)
           console.log(`⏱️ Request failed after ${requestDuration}ms (${(requestDuration / 1000).toFixed(2)}s)`)
         }
         setError(err.message)
@@ -679,7 +681,9 @@ function Result() {
                     translations: t
                   })
                 } catch (error) {
-                  console.error('Failed to export PDF:', error)
+                  if (import.meta.env.DEV) {
+                    console.error('Failed to export PDF:', error)
+                  }
                   alert(lang === 'zh' 
                     ? '导出PDF失败，请检查控制台错误信息' 
                     : 'Failed to export PDF, please check console for errors')

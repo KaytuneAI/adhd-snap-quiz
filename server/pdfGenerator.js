@@ -41,7 +41,9 @@ function loadLogo() {
       const logoBuffer = readFileSync(LOGO_PATH)
       logoBase64 = `data:image/jpeg;base64,${logoBuffer.toString('base64')}`
     } catch (error) {
-      console.warn('Failed to load logo:', error)
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn('Failed to load logo:', error)
+      }
       logoBase64 = null
     }
   }
@@ -324,7 +326,9 @@ export async function generatePDF({ scores, aiAnalysis, lang = 'zh', translation
       doc.addImage(logoBase64, 'JPEG', logoX, yPos, logoWidth, logoHeight)
       yPos += logoHeight + 8 * 1.3
     } catch (error) {
-      console.warn('Failed to add logo to PDF:', error)
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn('Failed to add logo to PDF:', error)
+      }
     }
   }
 

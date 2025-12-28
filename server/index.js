@@ -49,6 +49,7 @@ app.post('/api/generate-pdf', async (req, res) => {
     // 发送 PDF
     res.send(pdfBuffer)
   } catch (error) {
+    // 错误日志始终记录（生产环境也需要）
     console.error('PDF generation error:', error)
     res.status(500).json({ 
       error: 'Failed to generate PDF',
@@ -64,8 +65,11 @@ app.get('/api/health', (req, res) => {
 
 // 启动服务器
 app.listen(PORT, () => {
+  // 启动信息始终显示（帮助确认服务器已启动）
   console.log(`🚀 PDF Generator Server running on http://localhost:${PORT}`)
-  console.log(`📄 PDF API: POST http://localhost:${PORT}/api/generate-pdf`)
-  console.log(`💡 Note: Using port ${PORT} to avoid conflict with fluiddam on port 3001`)
+  if (process.env.NODE_ENV !== 'production') {
+    console.log(`📄 PDF API: POST http://localhost:${PORT}/api/generate-pdf`)
+    console.log(`💡 Note: Using port ${PORT} to avoid conflict with fluiddam on port 3001`)
+  }
 })
 

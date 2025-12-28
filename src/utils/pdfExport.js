@@ -29,7 +29,9 @@ export async function exportToPDF({ scores, aiAnalysis, lang, domainLabel, trans
       fontBoldBase64 = boldModule.default
       fontsLoaded = true
     } catch (error) {
-      console.error('Failed to load fonts:', error)
+      if (import.meta.env.DEV) {
+        console.error('Failed to load fonts:', error)
+      }
       throw new Error('无法加载字体文件，PDF导出失败')
     }
   }
@@ -186,7 +188,9 @@ export async function exportToPDF({ scores, aiAnalysis, lang, domainLabel, trans
 
   // 如果所有路径都失败，使用文字替代
   if (!logoLoaded) {
-    console.warn('无法加载logo图片，使用文字替代')
+    if (import.meta.env.DEV) {
+      console.warn('无法加载logo图片，使用文字替代')
+    }
     doc.setFontSize(16)
     doc.setTextColor(31, 41, 55)
     doc.setFont('NotoSansSC', 'normal')
@@ -553,7 +557,9 @@ export async function exportToPDF({ scores, aiAnalysis, lang, domainLabel, trans
     }, 100)
   } catch (error) {
     // 如果Blob方式失败，回退到原始方式
-    console.warn('Blob download failed, falling back to doc.save():', error)
+    if (import.meta.env.DEV) {
+      console.warn('Blob download failed, falling back to doc.save():', error)
+    }
     doc.save(filename)
   }
 }

@@ -33,8 +33,10 @@ export async function generatePDFViaAPI({ scores, aiAnalysis, lang, domainLabel,
     : (import.meta.env.VITE_PDF_API_URL || '/api/generate-pdf')  // 生产环境：通过 Nginx 代理到 localhost:3002
 
   try {
-    // 显示加载提示
-    console.log('📄 正在生成 PDF...')
+    // 显示加载提示（仅开发环境）
+    if (import.meta.env.DEV) {
+      console.log('📄 正在生成 PDF...')
+    }
     
     // 显示用户提示（根据语言）
     const isZh = lang === 'zh'
@@ -82,7 +84,9 @@ export async function generatePDFViaAPI({ scores, aiAnalysis, lang, domainLabel,
       URL.revokeObjectURL(url)
     }, 100)
 
-    console.log('✅ PDF 生成成功')
+    if (import.meta.env.DEV) {
+      console.log('✅ PDF 生成成功')
+    }
     
     // 显示下载完成提示
     const successMsg = isZh 
@@ -91,7 +95,9 @@ export async function generatePDFViaAPI({ scores, aiAnalysis, lang, domainLabel,
     
     alert(successMsg)
   } catch (error) {
-    console.error('❌ PDF 生成失败:', error)
+    if (import.meta.env.DEV) {
+      console.error('❌ PDF 生成失败:', error)
+    }
     throw error
   }
 }

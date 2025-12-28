@@ -53,7 +53,9 @@ function Quiz() {
           return parsed.currentPage
         }
       } catch (e) {
-        console.warn('Failed to parse saved progress')
+        if (import.meta.env.DEV) {
+          console.warn('Failed to parse saved progress')
+        }
       }
     }
     return 0
@@ -70,7 +72,9 @@ function Quiz() {
           return parsed
         }
       } catch (e) {
-        console.warn('Failed to parse saved answers')
+        if (import.meta.env.DEV) {
+          console.warn('Failed to parse saved answers')
+        }
       }
     }
     return Array(snapItems.length).fill(null)
