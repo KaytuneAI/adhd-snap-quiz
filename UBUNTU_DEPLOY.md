@@ -48,21 +48,21 @@ sudo systemctl status nginx
 
 ```bash
 # 创建项目目录（可选，根据你的习惯）
-sudo mkdir -p /var/www
-cd /var/www
+sudo mkdir -p /usr/local
+cd /usr/local
 
 # 克隆项目（替换为你的 GitHub 仓库地址）
 sudo git clone https://github.com/KaytuneAI/adhd-snap-quiz.git
 cd adhd-snap-quiz
 
 # 设置目录权限（让当前用户可以操作）
-sudo chown -R $USER:$USER /var/www/adhd-snap-quiz
+sudo chown -R $USER:$USER /usr/local/adhd-snap-quiz
 ```
 
 ## 📥 第四步：安装项目依赖
 
 ```bash
-cd /var/www/adhd-snap-quiz
+cd /usr/local/adhd-snap-quiz
 
 # 安装依赖
 npm install
@@ -77,7 +77,7 @@ npm install
 创建 `.env` 文件：
 
 ```bash
-cd /var/www/adhd-snap-quiz
+cd /usr/local/adhd-snap-quiz
 nano .env
 ```
 
@@ -106,7 +106,7 @@ PORT=3002
 ## 🏗️ 第六步：构建前端应用
 
 ```bash
-cd /var/www/adhd-snap-quiz
+cd /usr/local/adhd-snap-quiz
 
 # 构建生产版本
 npm run build
@@ -124,7 +124,7 @@ ls -la dist/
 sudo mkdir -p /var/www/adhdsupport.cn/adhd
 
 # 复制构建文件到部署目录
-sudo cp -r /var/www/adhd-snap-quiz/dist/* /var/www/adhdsupport.cn/adhd/
+sudo cp -r /usr/local/adhd-snap-quiz/dist/* /var/www/adhdsupport.cn/adhd/
 
 # 设置权限
 sudo chown -R www-data:www-data /var/www/adhdsupport.cn/adhd
@@ -244,7 +244,7 @@ PM2 用于管理 PDF 生成服务器，确保它在后台运行并在系统重�
 sudo npm install -g pm2
 
 # 进入项目目录
-cd /var/www/adhd-snap-quiz
+cd /usr/local/adhd-snap-quiz
 
 # 启动 PDF 服务器
 pm2 start server/index.js --name pdf-generator
@@ -338,7 +338,7 @@ sudo certbot --nginx -d www.adhdsupport.cn
 
 ```bash
 # 1. 进入项目目录
-cd /var/www/adhd-snap-quiz
+cd /usr/local/adhd-snap-quiz
 
 # 2. 拉取最新代码
 git pull
@@ -413,7 +413,7 @@ proxy_send_timeout 120s;
 **解决：**
 ```bash
 # 检查 .env 文件
-cat /var/www/adhd-snap-quiz/.env
+cat /usr/local/adhd-snap-quiz/.env
 
 # 确认 API 密钥正确
 # 注意：.env 文件中的密钥不会被打包到构建文件中
@@ -429,7 +429,7 @@ cat /var/www/adhd-snap-quiz/.env
 **解决：**
 ```bash
 # 检查字体文件是否存在
-ls -la /var/www/adhd-snap-quiz/src/fonts/static/
+ls -la /usr/local/adhd-snap-quiz/src/fonts/static/
 
 # 应该看到 NotoSansSC-Regular.ttf 和 NotoSansSC-Bold.ttf
 ```

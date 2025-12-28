@@ -4,8 +4,8 @@
 
 ```bash
 # 1. 克隆项目
-sudo git clone https://github.com/KaytuneAI/adhd-snap-quiz.git /var/www/adhd-snap-quiz
-cd /var/www/adhd-snap-quiz
+sudo git clone https://github.com/KaytuneAI/adhd-snap-quiz.git /usr/local/adhd-snap-quiz
+cd /usr/local/adhd-snap-quiz
 
 # 2. 运行部署脚本
 sudo bash deploy-ubuntu.sh
@@ -21,7 +21,7 @@ curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
 sudo apt-get install -y nodejs nginx
 
 # 项目依赖
-cd /var/www/adhd-snap-quiz
+cd /usr/local/adhd-snap-quiz
 npm install
 ```
 
@@ -65,7 +65,7 @@ sudo nano /etc/nginx/sites-available/www.adhdsupport.cn
 sudo npm install -g pm2
 
 # 启动 PDF 服务器
-cd /var/www/adhd-snap-quiz
+cd /usr/local/adhd-snap-quiz
 pm2 start server/index.js --name pdf-generator
 pm2 save
 pm2 startup  # 按提示执行命令
@@ -88,7 +88,7 @@ curl http://localhost:3002/api/health
 ## 🔄 更新代码
 
 ```bash
-cd /var/www/adhd-snap-quiz
+cd /usr/local/adhd-snap-quiz
 git pull
 npm install  # 如果有新依赖
 npm run build

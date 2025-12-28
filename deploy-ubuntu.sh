@@ -21,7 +21,7 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 # 配置变量（根据实际情况修改）
-PROJECT_DIR="/var/www/adhd-snap-quiz"
+PROJECT_DIR="/usr/local/adhd-snap-quiz"
 DEPLOY_DIR="/var/www/adhdsupport.cn/adhd"
 DOMAIN="www.adhdsupport.cn"  # 域名
 NGINX_SITE="www.adhdsupport.cn"  # Nginx 站点名称
@@ -68,7 +68,7 @@ echo ""
 echo "🔍 检查项目目录..."
 if [ ! -d "$PROJECT_DIR" ]; then
     echo -e "${RED}❌ 项目目录不存在: $PROJECT_DIR${NC}"
-    echo "   请先克隆项目: git clone https://github.com/KaytuneAI/adhd-snap-quiz.git $PROJECT_DIR"
+    echo "   请先克隆项目: sudo git clone https://github.com/KaytuneAI/adhd-snap-quiz.git $PROJECT_DIR"
     exit 1
 else
     echo -e "${GREEN}✅ 项目目录存在${NC}"
