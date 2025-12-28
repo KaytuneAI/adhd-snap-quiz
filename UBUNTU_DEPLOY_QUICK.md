@@ -52,11 +52,30 @@ sudo chown -R www-data:www-data /var/www/adhdsupport.cn/adhd
 
 ### 4. 配置 Nginx
 
+**重要：** 首先检查 Nginx 主配置是否包含 `sites-enabled`：
+
+```bash
+# 检查
+sudo cat /etc/nginx/nginx.conf | grep "sites-enabled"
+```
+
+如果没有输出，需要添加：
+```bash
+sudo nano /etc/nginx/nginx.conf
+# 在 http 块中添加：include /etc/nginx/sites-enabled/*;
+```
+
+然后创建站点配置：
 ```bash
 sudo nano /etc/nginx/sites-available/www.adhdsupport.cn
 ```
 
 参考 `nginx.conf.example` 或 `UBUNTU_DEPLOY.md` 中的完整配置。
+
+启用站点：
+```bash
+sudo ln -s /etc/nginx/sites-available/www.adhdsupport.cn /etc/nginx/sites-enabled/
+```
 
 ### 5. 启动服务
 

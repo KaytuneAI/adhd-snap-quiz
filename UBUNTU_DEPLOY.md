@@ -220,7 +220,33 @@ server {
 }
 ```
 
-### 8.3 启用站点
+### 8.3 检查 Nginx 主配置
+
+**重要：** 确保 Nginx 主配置包含 `sites-enabled` 目录：
+
+```bash
+# 检查 nginx.conf 是否包含 sites-enabled
+sudo cat /etc/nginx/nginx.conf | grep "sites-enabled"
+```
+
+如果没有输出，需要编辑主配置：
+
+```bash
+sudo nano /etc/nginx/nginx.conf
+```
+
+在 `http { ... }` 块中，找到 `include /etc/nginx/conf.d/*.conf;` 这一行，在它下面添加：
+
+```nginx
+include /etc/nginx/sites-enabled/*;
+```
+
+保存后测试配置：
+```bash
+sudo nginx -t
+```
+
+### 8.4 启用站点
 
 ```bash
 # 创建软链接（如果还没有）
@@ -376,12 +402,28 @@ pm2 start server/index.js --name pdf-generator
 
 ### 问题 2：404 Not Found（路由问题）
 
-**原因：** Nginx 配置中缺少 `try_files` 指令
+**可能原因 1：** Nginx 主配置未包含 `sites-enabled`
+
+**解决：** 检查并添加：
+```bash
+sudo cat /etc/nginx/nginx.conf | grep "sites-enabled"
+# 如果没有输出，编辑 /etc/nginx/nginx.conf，在 http 块中添加：
+# include /etc/nginx/sites-enabled/*;
+```
+
+**可能原因 2：** Nginx 配置中缺少 `try_files` 指令
 
 **解决：** 确保 `/adhd/` location 块中有：
 ```nginx
 try_files $uri $uri/ /adhd/index.html;
 ```
+
+**可能原因 3：** 请求被默认 server 块处理（显示 `server: localhost`）
+
+**解决：** 
+- 检查站点是否启用：`ls -la /etc/nginx/sites-enabled/`
+- 删除或禁用 default 站点：`sudo rm /etc/nginx/sites-enabled/default`
+- 确保 `server_name` 配置正确
 
 ### 问题 3：静态资源 404
 
